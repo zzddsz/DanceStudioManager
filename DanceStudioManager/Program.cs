@@ -2,11 +2,11 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using DanceStudioManager.Data;
-using DanceStudioManager.Mappings;
-using DanceStudioManager.Repositories;
-using DanceStudioManager.Services;
-using DanceStudioManager.Validators;
+using DanceStudio.Repository.Data;
+using DanceStudio.Repository.Repositories;
+using DanceStudio.Service.Mappings;
+using DanceStudio.Service.Services;
+using DanceStudio.Service.Validators;
 using DanceStudioManager.Controllers;
 using System.Windows.Forms;
 
@@ -19,42 +19,44 @@ namespace DanceStudioManager
         {
             var services = new ServiceCollection();
 
-            // A linha de conexão MySQL
+            // ?? REGISTRA O LOGGER NECESSÁRIO PARA O MySQL E EF CORE
+            services.AddLogging();
+
+            // CONEXÃO
             var connection = "server=localhost;database=studio;user=root;password=";
 
-            // DbContext (provider oficial MySQL)
             services.AddDbContext<AppDbContext>(options =>
-                options.UseMySQL(connection)
-            );
+                options.UseMySQL(connection));
 
-            // AutoMapper - registra os profiles do assembly
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            // AUTO MAPPER
+            services.AddAutoMapper(cfg => { }, typeof(DanceClassProfile).Assembly);
 
-            // Repositório / Service / Validator / Controller
+            // REPOSITORY
             services.AddScoped<DanceClassRepository>();
-            services.AddScoped<DanceClassService>();
+
+            // VALIDATOR
             services.AddScoped<DanceClassValidator>();
+
+            // SERVICE
+            services.AddScoped<DanceClassService>();
+
+            // CONTROLLER
             services.AddScoped<DanceClassController>();
 
-            // Forms: Devem ser Transient para garantir que uma nova janela seja criada
-            // a cada vez que for solicitada (especialmente FormAddEdit).
+            // FORMS
             services.AddTransient<Form1>();
             services.AddTransient<FormAddEdit>();
 
             var provider = services.BuildServiceProvider();
 
-            // Garantir que o banco/tabela exista: (cria DB/tabelas se não existirem)
+            // CRIA O BANCO SE NECESSÁRIO
             using (var scope = provider.CreateScope())
             {
                 var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                // Atenção: Esta linha Assume que você configurou as Entidades no AppDbContext
                 ctx.Database.EnsureCreated();
             }
 
-            // Configuração padrão do Windows Forms
             ApplicationConfiguration.Initialize();
-
-            // Inicia a aplicação com o Form1 injetado
             Application.Run(provider.GetRequiredService<Form1>());
         }
     }

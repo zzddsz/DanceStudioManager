@@ -1,8 +1,8 @@
-﻿namespace DanceStudioManager.DTOs
+﻿namespace DanceStudio.Domain.Models
 {
-    public class DanceClassDTO
+    public class DanceClass
     {
-        public int Id { get; set; } // útil para editar
+        public int Id { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string Professor { get; set; } = string.Empty;
         public string DiaDaSemana { get; set; } = string.Empty;

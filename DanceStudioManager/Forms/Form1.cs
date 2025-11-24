@@ -1,5 +1,5 @@
 using DanceStudioManager.Controllers;
-using DanceStudioManager.DTOs;
+using DanceStudio.Service.DTOs;   // <== DTOs AGORA ESTÃO NO SERVICE
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
@@ -14,7 +14,9 @@ namespace DanceStudioManager
         {
             _controller = controller;
             InitializeComponent();
-            this.BackColor = Color.FromArgb(255, 245, 250); // Fundo Rosa Suave
+
+            // COR DE FUNDO
+            this.BackColor = Color.FromArgb(255, 245, 250);
         }
 
         private async void Form1_Load(object sender, System.EventArgs e)
@@ -24,14 +26,19 @@ namespace DanceStudioManager
 
         private async Task RefreshGrid()
         {
-            // Seu método Listar() retorna List<DanceClassDTO>
             var list = await _controller.Listar();
             dgv.DataSource = list;
+
+            // Opcional: ajustar colunas
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.RowHeadersVisible = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void BtnAdd_Click(object sender, System.EventArgs e)
         {
             var f = new FormAddEdit(_controller);
+
             if (f.ShowDialog() == DialogResult.OK)
             {
                 _ = RefreshGrid();
@@ -46,11 +53,9 @@ namespace DanceStudioManager
                 return;
             }
 
-            // Pega o ID da linha selecionada
-            var id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
+            int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
 
-            // Busca usando o método Buscar(int)
-            var dto = await _controller.Buscar(id);
+            DanceClassDTO dto = await _controller.Buscar(id);
 
             if (dto == null)
             {
@@ -59,11 +64,11 @@ namespace DanceStudioManager
             }
 
             var f = new FormAddEdit(_controller);
-            f.LoadForEdit(dto); // Passa o DTO recuperado
+            f.LoadForEdit(dto);
 
             if (f.ShowDialog() == DialogResult.OK)
             {
-                _ = RefreshGrid();
+                await RefreshGrid();
             }
         }
 
@@ -77,9 +82,8 @@ namespace DanceStudioManager
 
             if (MessageBox.Show("Tem certeza?", "Excluir", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                var id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
+                int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
 
-                // Chama Remover(id) que retorna (bool ok, string msg)
                 var resultado = await _controller.Remover(id);
 
                 MessageBox.Show(resultado.msg);

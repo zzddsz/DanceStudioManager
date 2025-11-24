@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 // Adicione o using correto para DanceClassController
 using DanceStudioManager.Controllers;
-using DanceStudioManager.DTOs; // Altere para o namespace correto onde DanceClassController está definido
+using DanceStudio.Service.DTOs;
 
 namespace DanceStudioManager
 {

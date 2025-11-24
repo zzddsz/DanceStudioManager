@@ -1,8 +1,8 @@
-﻿using DanceStudioManager.Data;
-using DanceStudioManager.Models;
+﻿using DanceStudio.Repository.Data;
+using DanceStudio.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DanceStudioManager.Repositories
+namespace DanceStudio.Repository.Repositories
 {
     public class DanceClassRepository
     {
@@ -15,7 +15,9 @@ namespace DanceStudioManager.Repositories
 
         public async Task<List<DanceClass>> GetAllAsync()
         {
-            return await _ctx.DanceClasses.AsNoTracking().ToListAsync();
+            return await _ctx.DanceClasses
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<DanceClass?> GetByIdAsync(int id)
