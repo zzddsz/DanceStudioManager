@@ -9,7 +9,7 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblStudio;
         private System.Windows.Forms.Panel topPanel;
 
         protected override void Dispose(bool disposing)
@@ -28,7 +28,7 @@
             btnEdit = new Button();
             btnDelete = new Button();
             btnRefresh = new Button();
-            lblTitle = new Label();
+            lblStudio = new Label();
             topPanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             topPanel.SuspendLayout();
@@ -104,21 +104,21 @@
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += BtnRefresh_Click;
             // 
-            // lblTitle
+            // lblStudio
             // 
-            lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(115, 9);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(603, 46);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Studio Dance • Gerenciador de Aulas";
+            lblStudio.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblStudio.ForeColor = Color.White;
+            lblStudio.Location = new Point(3, 9);
+            lblStudio.Name = "lblStudio";
+            lblStudio.Size = new Size(833, 61);
+            lblStudio.TabIndex = 0;
+            lblStudio.Text = "Studio Dance • Gerenciador de Aulas";
+            lblStudio.TextAlign = ContentAlignment.TopCenter;
             // 
             // topPanel
             // 
             topPanel.BackColor = Color.RosyBrown;
-            topPanel.Controls.Add(lblTitle);
+            topPanel.Controls.Add(lblStudio);
             topPanel.Dock = DockStyle.Top;
             topPanel.Location = new Point(0, 0);
             topPanel.Name = "topPanel";
@@ -141,7 +141,6 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             topPanel.ResumeLayout(false);
-            topPanel.PerformLayout();
             ResumeLayout(false);
         }
     }

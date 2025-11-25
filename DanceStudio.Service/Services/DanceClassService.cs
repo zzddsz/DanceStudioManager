@@ -2,7 +2,7 @@
 using DanceStudio.Domain.Models;
 using DanceStudio.Repository.Repositories;
 using DanceStudio.Service.DTOs;
-using DanceStudio.Service.Validators; // <- CORRETO
+using DanceStudio.Service.Validators;
 using FluentValidation;
 
 namespace DanceStudio.Service.Services

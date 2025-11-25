@@ -61,7 +61,7 @@
             lblName.Name = "lblName";
             lblName.Size = new Size(57, 23);
             lblName.TabIndex = 0;
-            lblName.Text = "Name:";
+            lblName.Text = "Nome:";
             // 
             // txtName
             // 
@@ -78,7 +78,7 @@
             lblAge.Name = "lblAge";
             lblAge.Size = new Size(57, 23);
             lblAge.TabIndex = 2;
-            lblAge.Text = "Age:";
+            lblAge.Text = "Idade:";
             // 
             // txtAge
             // 
@@ -95,7 +95,7 @@
             lblLevel.Name = "lblLevel";
             lblLevel.Size = new Size(57, 23);
             lblLevel.TabIndex = 4;
-            lblLevel.Text = "Level:";
+            lblLevel.Text = "Nível";
             // 
             // txtLevel
             // 
