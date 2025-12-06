@@ -1,6 +1,6 @@
 ﻿namespace DanceStudioManager
 {
-    partial class FormAddEdit
+    partial class FormAddEditStudent
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -39,7 +39,7 @@
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.RosyBrown;
+            panelMain.BackColor = Color.White;
             panelMain.Controls.Add(lblName);
             panelMain.Controls.Add(txtName);
             panelMain.Controls.Add(lblAge);
@@ -61,7 +61,7 @@
             lblName.Name = "lblName";
             lblName.Size = new Size(57, 23);
             lblName.TabIndex = 0;
-            lblName.Text = "Nome:";
+            lblName.Text = "Name:";
             // 
             // txtName
             // 
@@ -78,7 +78,7 @@
             lblAge.Name = "lblAge";
             lblAge.Size = new Size(57, 23);
             lblAge.TabIndex = 2;
-            lblAge.Text = "Idade:";
+            lblAge.Text = "Age:";
             // 
             // txtAge
             // 
@@ -95,7 +95,7 @@
             lblLevel.Name = "lblLevel";
             lblLevel.Size = new Size(57, 23);
             lblLevel.TabIndex = 4;
-            lblLevel.Text = "Nível";
+            lblLevel.Text = "Level:";
             // 
             // txtLevel
             // 
@@ -126,11 +126,11 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = false;
             // 
-            // FormAddEdit
+            // FormAddEditAluno
             // 
             ClientSize = new Size(400, 300);
             Controls.Add(panelMain);
-            Name = "FormAddEdit";
+            Name = "FormAddEditAluno";
             Text = "Add / Edit Student";
             panelMain.ResumeLayout(false);
             panelMain.PerformLayout();

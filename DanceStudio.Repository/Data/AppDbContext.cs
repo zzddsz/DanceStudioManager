@@ -12,5 +12,8 @@ namespace DanceStudio.Repository.Data
         }
 
         public DbSet<DanceClass> DanceClasses { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<Enrollment> Enrollment { get; set; }
     }
 }

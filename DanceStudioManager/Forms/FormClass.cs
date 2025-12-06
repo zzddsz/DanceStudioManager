@@ -1,21 +1,21 @@
 using DanceStudioManager.Controllers;
-using DanceStudio.Service.DTOs;   // <== DTOs AGORA ESTÃO NO SERVICE
+using DanceStudio.Service.DTOs;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using ReaLTaiizor.Forms;
 
 namespace DanceStudioManager
 {
-    public partial class Form1 : Form
+    public partial class FormClass : Form
     {
         private readonly DanceClassController _controller;
 
-        public Form1(DanceClassController controller)
+        public FormClass(DanceClassController controller)
         {
             _controller = controller;
             InitializeComponent();
 
-            // COR DE FUNDO
             this.BackColor = Color.FromArgb(255, 245, 250);
         }
 
@@ -29,7 +29,6 @@ namespace DanceStudioManager
             var list = await _controller.Listar();
             dgv.DataSource = list;
 
-            // Opcional: ajustar colunas
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.RowHeadersVisible = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -37,7 +36,7 @@ namespace DanceStudioManager
 
         private void BtnAdd_Click(object sender, System.EventArgs e)
         {
-            var f = new FormAddEdit(_controller);
+            var f = new FormAddEditStudent(_controller);
 
             if (f.ShowDialog() == DialogResult.OK)
             {
@@ -63,7 +62,7 @@ namespace DanceStudioManager
                 return;
             }
 
-            var f = new FormAddEdit(_controller);
+            var f = new FormAddEditStudent(_controller);
             f.LoadForEdit(dto);
 
             if (f.ShowDialog() == DialogResult.OK)

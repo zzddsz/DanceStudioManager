@@ -1,6 +1,6 @@
 ﻿namespace DanceStudioManager
 {
-    partial class Form1
+    partial class FormClass
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -58,7 +58,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(150, 41);
             btnAdd.TabIndex = 2;
-            btnAdd.Text = "Adicionar";
+            btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += BtnAdd_Click;
             // 
@@ -72,7 +72,7 @@
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(169, 41);
             btnEdit.TabIndex = 3;
-            btnEdit.Text = "Editar";
+            btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = false;
             btnEdit.Click += BtnEdit_Click;
             // 
@@ -86,7 +86,7 @@
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(169, 41);
             btnDelete.TabIndex = 4;
-            btnDelete.Text = "Remover";
+            btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += BtnDelete_Click;
             // 
@@ -100,7 +100,7 @@
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(169, 41);
             btnRefresh.TabIndex = 5;
-            btnRefresh.Text = "Atualizar";
+            btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += BtnRefresh_Click;
             // 
@@ -112,7 +112,7 @@
             lblStudio.Name = "lblStudio";
             lblStudio.Size = new Size(833, 61);
             lblStudio.TabIndex = 0;
-            lblStudio.Text = "Studio Dance • Gerenciador de Aulas";
+            lblStudio.Text = "Studio Dance • Class control";
             lblStudio.TextAlign = ContentAlignment.TopCenter;
             // 
             // topPanel
@@ -125,7 +125,7 @@
             topPanel.Size = new Size(836, 70);
             topPanel.TabIndex = 0;
             // 
-            // Form1
+            // FormAula
             // 
             BackColor = Color.MistyRose;
             ClientSize = new Size(836, 526);
@@ -135,7 +135,7 @@
             Controls.Add(btnEdit);
             Controls.Add(btnDelete);
             Controls.Add(btnRefresh);
-            Name = "Form1";
+            Name = "FormAula";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Dance Studio Manager";
             Load += Form1_Load;
