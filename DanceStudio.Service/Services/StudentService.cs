@@ -2,76 +2,84 @@
 using DanceStudio.Domain.Models;
 using DanceStudio.Repository.Repositories;
 using DanceStudio.Service.DTOs;
-using DanceStudio.Service.Validators;
-using FluentValidation;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 namespace DanceStudio.Service.Services
 {
     public class StudentService
     {
-        private readonly StudentRepository _repo;
+        private readonly StudentRepository _repository;
         private readonly IMapper _mapper;
-        private readonly StudentValidator _validator;
 
-        public StudentService(
-            StudentRepository repo,
-            IMapper mapper,
-            StudentValidator validator)
+        public StudentService(StudentRepository repository, IMapper mapper)
         {
-            _repo = repo;
+            _repository = repository;
             _mapper = mapper;
-            _validator = validator;
         }
 
-        public async Task<List<StudentDTO>> ListarTodasAsync()
+        public async Task<List<StudentDTO>> ListarTodosAsync()
         {
-            var list = await _repo.GetAllAsync();
-            return _mapper.Map<List<StudentDTO>>(list);
+            var lista = await _repository.GetAllAsync();
+            return _mapper.Map<List<StudentDTO>>(lista);
         }
 
-        public async Task<StudentDTO?> BuscarPorIdAsync(int id)
+        public async Task<StudentDTO> BuscarPorIdAsync(int id)
         {
-            var entity = await _repo.GetByIdAsync(id);
-            return entity == null ? null : _mapper.Map<StudentDTO>(entity);
+            var obj = await _repository.GetByIdAsync(id);
+            return _mapper.Map<StudentDTO>(obj);
         }
 
-        public async Task<(bool ok, string message)> AdicionarAsync(StudentDTO dto)
+        public async Task<(bool ok, string msg)> AdicionarAsync(StudentDTO dto)
         {
-            var val = _validator.Validate(dto);
-            if (!val.IsValid)
-                return (false, string.Join("; ", val.Errors.Select(e => e.ErrorMessage)));
-
-            var entity = _mapper.Map<Student>(dto);
-            await _repo.AddAsync(entity);
-
-            return (true, "Aluno cadastrado com sucesso");
+            try
+            {
+                var entity = _mapper.Map<Student>(dto);
+                await _repository.AddAsync(entity);
+                return (true, "Sucesso");
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
-        public async Task<(bool ok, string message)> AtualizarAsync(int id, StudentDTO dto)
+        public async Task<(bool ok, string msg)> AtualizarAsync(int id, StudentDTO dto)
         {
-            var val = _validator.Validate(dto);
-            if (!val.IsValid)
-                return (false, string.Join("; ", val.Errors.Select(e => e.ErrorMessage)));
+            try
+            {
+                var entity = await _repository.GetByIdAsync(id);
+                if (entity == null) return (false, "Estudante não encontrado");
 
-            var existing = await _repo.GetByIdAsync(id);
-            if (existing == null)
-                return (false, "Aluno não encontrado");
-
-            _mapper.Map(dto, existing);
-            await _repo.UpdateAsync(existing);
-
-            return (true, "Aluno atualizado");
+                _mapper.Map(dto, entity); 
+                await _repository.UpdateAsync(entity);
+                return (true, "Sucesso");
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
-        public async Task<(bool ok, string message)> RemoverAsync(int id)
+        public async Task<(bool ok, string msg)> RemoverAsync(int id)
         {
-            var entity = await _repo.GetByIdAsync(id);
-            if (entity == null)
-                return (false, "Aluno não encontrado");
+            try
+            {
+                
+                var entity = await _repository.GetByIdAsync(id);
 
-            await _repo.DeleteAsync(entity);
+                if (entity == null)
+                    return (false, "Estudante não encontrado para exclusão.");
 
-            return (true, "Aluno removido com sucesso");
+                await _repository.DeleteAsync(entity);
+
+                return (true, "Sucesso");
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
         }
     }
 }

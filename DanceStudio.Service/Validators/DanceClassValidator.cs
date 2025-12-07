@@ -7,11 +7,21 @@ namespace DanceStudio.Service.Validators
     {
         public DanceClassValidator()
         {
-            RuleFor(x => x.Nome).NotEmpty().WithMessage("Nome obrigatório");
-            RuleFor(x => x.Professor).NotEmpty().WithMessage("Professor obrigatório");
-            RuleFor(x => x.DiaDaSemana).NotEmpty().WithMessage("Dia obrigatório");
-            RuleFor(x => x.Horario).NotNull().WithMessage("Horário obrigatório");
-            RuleFor(x => x.NumeroVagas).GreaterThan(0).WithMessage("Vagas deve ser > 0");
+
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required");
+
+            RuleFor(x => x.Teacher)
+                .NotEmpty().WithMessage("Teacher is required");
+
+            RuleFor(x => x.DayOfWeek)
+                .NotEmpty().WithMessage("Day is required");
+
+            RuleFor(x => x.Time)
+                .NotNull().WithMessage("Time is required");
+
+            RuleFor(x => x.MaxStudents)
+                .GreaterThan(0).WithMessage("Max Students must be > 0");
         }
     }
 }

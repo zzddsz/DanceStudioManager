@@ -22,40 +22,33 @@ namespace DanceStudioManager
             var services = new ServiceCollection();
             services.AddLogging();
 
-            var connection = "server=localhost;database=studio;user=root;password=";
+            var connection = "server=localhost;port=3306;database=studio;user=root;password=";
 
-            // DbContext
             services.AddDbContext<AppDbContext>(options =>
                 options.UseMySQL(connection));
 
-            // AutoMapper
             services.AddAutoMapper(cfg => { }, typeof(DanceClassProfile).Assembly);
 
-            // Repositories
             services.AddScoped<DanceClassRepository>();
             services.AddScoped<StudentRepository>();
             services.AddScoped<TeacherRepository>();
             services.AddScoped<EnrollmentRepository>();
 
-            // Validators
             services.AddScoped<DanceClassValidator>();
             services.AddScoped<StudentValidator>();
             services.AddScoped<TeacherValidator>();
             services.AddScoped<EnrollmentValidator>();
 
-            // Services
             services.AddScoped<DanceClassService>();
             services.AddScoped<StudentService>();
             services.AddScoped<TeacherService>();
             services.AddScoped<EnrollmentService>();
 
-            // Controllers
             services.AddScoped<DanceClassController>();
             services.AddScoped<StudentController>();
             services.AddScoped<TeacherController>();
             services.AddScoped<EnrollmentController>();
 
-            // Forms
             services.AddTransient<FormMain>();
             services.AddTransient<FormClass>();
             services.AddTransient<FormStudentList>();
@@ -63,17 +56,23 @@ namespace DanceStudioManager
             services.AddTransient<FormEnrollmentList>();
             services.AddTransient<FormAddEditStudent>();
             services.AddTransient<FormAddEditEnrollment>();
+            services.AddTransient<FormAddEditClass>();
 
             var provider = services.BuildServiceProvider();
 
-            // Cria banco, caso não exista
-            using (var scope = provider.CreateScope())
+            try
             {
-                var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                ctx.Database.EnsureCreated();
+                using (var scope = provider.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    ctx.Database.EnsureCreated();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Não foi possível conectar ao Banco de Dados.\n\nVerifique se o XAMPP ou MySQL está rodando!\n\nErro técnico: {ex.Message}", "Erro de Conexão", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Start WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(provider.GetRequiredService<FormMain>());

@@ -63,12 +63,10 @@ namespace DanceStudioManager
 
             if (_idEdicao == null)
             {
-                // criar novo
                 (ok, msg) = await _controller.Criar(dto);
             }
             else
             {
-                // atualizar existente
                 dto.Id = _idEdicao.Value;
                 (ok, msg) = await _controller.Atualizar(_idEdicao.Value, dto);
             }

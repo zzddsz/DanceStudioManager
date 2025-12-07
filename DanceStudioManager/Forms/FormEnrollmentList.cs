@@ -13,6 +13,12 @@ namespace DanceStudioManager
     {
         private readonly EnrollmentController _controller;
 
+        
+        private readonly Color corPainel = Color.FromArgb(115, 55, 55);
+
+    
+        private readonly Color corBotao = Color.FromArgb(178, 122, 122);
+
         public FormEnrollmentList(EnrollmentController controller)
         {
             _controller = controller;
@@ -22,10 +28,11 @@ namespace DanceStudioManager
 
         private void ApplyTheme()
         {
-            this.BackColor = Color.FromArgb(255, 235, 245); // fundo rosa claro
+           
+            this.BackColor = Color.FromArgb(255, 245, 245);
             this.Font = new Font("Segoe UI", 10);
 
-            panelTop.BackColor = Color.White;
+            panelTop.BackColor = corPainel;
 
             StyleButton(btnAdd);
             StyleButton(btnDelete);
@@ -33,14 +40,19 @@ namespace DanceStudioManager
 
         private void StyleButton(Button btn)
         {
-            btn.BackColor = Color.FromArgb(255, 170, 200);
+            btn.BackColor = corBotao;
+
             btn.ForeColor = Color.White;
+
             btn.FlatStyle = FlatStyle.Flat;
             btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
 
-            btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 130, 180);
-            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 110, 160);
+            btn.FlatAppearance.BorderSize = 1;
+            btn.FlatAppearance.BorderColor = Color.White;
+
+            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(198, 142, 142); 
+            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(158, 102, 102); 
+            btn.UseVisualStyleBackColor = false;
         }
 
         private async void FormEnrollmentList_Load(object sender, EventArgs e)
@@ -53,22 +65,23 @@ namespace DanceStudioManager
             var lista = await _controller.Listar();
             dgvEnrollments.DataSource = lista;
 
-            dgvEnrollments.Columns["Id"].Visible = false;
-            dgvEnrollments.Columns["StudentId"].Visible = false;
-            dgvEnrollments.Columns["DanceClassId"].Visible = false;
+            dgvEnrollments.BackgroundColor = Color.White;
+            dgvEnrollments.BorderStyle = BorderStyle.None;
 
-            dgvEnrollments.Columns["StudentName"].HeaderText = "Aluno";
-            dgvEnrollments.Columns["DanceClassName"].HeaderText = "Turma";
-            dgvEnrollments.Columns["Date"].HeaderText = "Data";
+            if (dgvEnrollments.Columns.Count > 0)
+            {
+                if (dgvEnrollments.Columns.Contains("Id")) dgvEnrollments.Columns["Id"].Visible = false;
+                if (dgvEnrollments.Columns.Contains("StudentId")) dgvEnrollments.Columns["StudentId"].Visible = false;
+                if (dgvEnrollments.Columns.Contains("DanceClassId")) dgvEnrollments.Columns["DanceClassId"].Visible = false;
+
+                if (dgvEnrollments.Columns.Contains("StudentName")) dgvEnrollments.Columns["StudentName"].HeaderText = "Aluno";
+                if (dgvEnrollments.Columns.Contains("DanceClassName")) dgvEnrollments.Columns["DanceClassName"].HeaderText = "Turma";
+                if (dgvEnrollments.Columns.Contains("Date")) dgvEnrollments.Columns["Date"].HeaderText = "Data";
+            }
         }
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
-            using (var form = new FormEnrollmentList(_controller))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                    await CarregarLista();
-            }
         }
 
         private async void BtnDelete_Click(object sender, EventArgs e)
@@ -79,7 +92,10 @@ namespace DanceStudioManager
                 return;
             }
 
-            int id = (int)dgvEnrollments.SelectedRows[0].Cells["Id"].Value;
+            var cellValue = dgvEnrollments.SelectedRows[0].Cells["Id"].Value;
+            if (cellValue == null) return;
+
+            int id = (int)cellValue;
 
             var confirm = MessageBox.Show(
                 "Deseja remover esta matrícula?",

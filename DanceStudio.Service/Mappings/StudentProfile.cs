@@ -8,7 +8,7 @@ namespace DanceStudio.Service.Mappings
     {
         public StudentProfile()
         {
-            CreateMap<Student, StudentDTO>().ReverseMap();
+            CreateMap<StudentDTO, Student>().ReverseMap();
         }
     }
 }

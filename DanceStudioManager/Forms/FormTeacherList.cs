@@ -13,7 +13,6 @@ namespace DanceStudioManager.Forms
 
         private void FormTeacherList_Load(object sender, EventArgs e)
         {
-            // Aplicar estilo aos botões (mesmo padrão do Student)
             Button[] b = { btnAdd, btnEdit, btnDelete, btnRefresh };
 
             foreach (var btn in b)

@@ -36,20 +36,16 @@ namespace DanceStudio.Service.Services
 
         public async Task<(bool ok, string message)> AdicionarAsync(EnrollmentDTO dto)
         {
-            // Validação
             var val = _validator.Validate(dto);
             if (!val.IsValid)
                 return (false, string.Join("; ", val.Errors.Select(e => e.ErrorMessage)));
 
-            // Student existe?
             if (await _studentRepo.GetByIdAsync(dto.StudentId) == null)
                 return (false, "Aluno não existe");
 
-            // Classe existe?
             if (await _classRepo.GetByIdAsync(dto.DanceClassId) == null)
                 return (false, "Aula não existe");
 
-            // Mapeia e salva
             var entity = _mapper.Map<Enrollment>(dto);
             await _repo.AddAsync(entity);
 

@@ -32,9 +32,6 @@ namespace DanceStudioManager.Views
                 CarregarDados(id.Value);
         }
 
-        // ==========================
-        // Carregar combos
-        // ==========================
         private async void CarregarCombos()
         {
             var alunos = await _studentController.Listar();
@@ -48,9 +45,7 @@ namespace DanceStudioManager.Views
             cmbClasses.ValueMember = "Id";
         }
 
-        // ==========================
-        // Carregar dados ao editar
-        // ==========================
+    
         private async void CarregarDados(int id)
         {
             var lista = await _controller.Listar();
@@ -62,9 +57,6 @@ namespace DanceStudioManager.Views
             dtpDate.Value = dto.Date;
         }
 
-        // ==========================
-        // Botão Salvar
-        // ==========================
         private async void btnSave_Click(object sender, EventArgs e)
         {
             var dto = new EnrollmentDTO
@@ -88,9 +80,6 @@ namespace DanceStudioManager.Views
             Close();
         }
 
-        // ==========================
-        // Botão Cancelar
-        // ==========================
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();

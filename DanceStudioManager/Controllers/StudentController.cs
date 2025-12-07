@@ -1,5 +1,7 @@
 ﻿using DanceStudio.Service.DTOs;
 using DanceStudio.Service.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DanceStudioManager.Controllers
 {
@@ -12,14 +14,16 @@ namespace DanceStudioManager.Controllers
             _service = service;
         }
 
+        public async Task Add(StudentDTO dto)
+        {
+            await _service.AdicionarAsync(dto);
+        }
+
         public Task<List<StudentDTO>> Listar()
-            => _service.ListarTodasAsync();
+            => _service.ListarTodosAsync();
 
-        public Task<StudentDTO?> Buscar(int id)
+        public Task<StudentDTO> Buscar(int id)
             => _service.BuscarPorIdAsync(id);
-
-        public Task<(bool ok, string msg)> Criar(StudentDTO dto)
-            => _service.AdicionarAsync(dto);
 
         public Task<(bool ok, string msg)> Atualizar(int id, StudentDTO dto)
             => _service.AtualizarAsync(id, dto);

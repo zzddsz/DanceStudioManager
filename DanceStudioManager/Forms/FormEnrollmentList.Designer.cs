@@ -30,20 +30,20 @@
             // 
             // panelTop
             // 
-            panelTop.BackColor = Color.RosyBrown;
+            panelTop.BackColor = Color.FromArgb(128, 64, 64);
             panelTop.Controls.Add(btnAdd);
             panelTop.Controls.Add(btnDelete);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
-            panelTop.Size = new Size(800, 70);
+            panelTop.Size = new Size(800, 80);
             panelTop.TabIndex = 0;
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(20, 15);
+            btnAdd.Location = new Point(223, 12);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(160, 40);
+            btnAdd.Size = new Size(175, 52);
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Adicionar Matrícula";
             btnAdd.UseVisualStyleBackColor = true;
@@ -51,9 +51,9 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(200, 15);
+            btnDelete.Location = new Point(404, 12);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(160, 40);
+            btnDelete.Size = new Size(175, 52);
             btnDelete.TabIndex = 1;
             btnDelete.Text = "Remover Matrícula";
             btnDelete.UseVisualStyleBackColor = true;
@@ -69,14 +69,14 @@
             dgvEnrollments.BorderStyle = BorderStyle.None;
             dgvEnrollments.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEnrollments.Dock = DockStyle.Fill;
-            dgvEnrollments.Location = new Point(0, 70);
+            dgvEnrollments.Location = new Point(0, 80);
             dgvEnrollments.MultiSelect = false;
             dgvEnrollments.Name = "dgvEnrollments";
             dgvEnrollments.ReadOnly = true;
             dgvEnrollments.RowHeadersVisible = false;
             dgvEnrollments.RowHeadersWidth = 51;
             dgvEnrollments.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvEnrollments.Size = new Size(800, 380);
+            dgvEnrollments.Size = new Size(800, 370);
             dgvEnrollments.TabIndex = 1;
             // 
             // FormEnrollmentList
