@@ -45,7 +45,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(175, 52);
             btnAdd.TabIndex = 0;
-            btnAdd.Text = "Adicionar Matrícula";
+            btnAdd.Text = "Add Enrollment";
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += BtnAdd_Click;
             // 
@@ -55,7 +55,7 @@
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(175, 52);
             btnDelete.TabIndex = 1;
-            btnDelete.Text = "Remover Matrícula";
+            btnDelete.Text = "Remove Enrollment";
             btnDelete.UseVisualStyleBackColor = true;
             btnDelete.Click += BtnDelete_Click;
             // 

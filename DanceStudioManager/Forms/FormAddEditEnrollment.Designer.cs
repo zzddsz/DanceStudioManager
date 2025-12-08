@@ -52,9 +52,9 @@
             lblStudent.Font = new Font("Tahoma", 10.8F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             lblStudent.Location = new Point(20, 25);
             lblStudent.Name = "lblStudent";
-            lblStudent.Size = new Size(69, 22);
+            lblStudent.Size = new Size(88, 22);
             lblStudent.TabIndex = 0;
-            lblStudent.Text = "Aluno:";
+            lblStudent.Text = "Student:";
             // 
             // cmbStudents
             // 
@@ -71,9 +71,9 @@
             lblClass.Font = new Font("Tahoma", 10.8F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             lblClass.Location = new Point(20, 80);
             lblClass.Name = "lblClass";
-            lblClass.Size = new Size(76, 22);
+            lblClass.Size = new Size(63, 22);
             lblClass.TabIndex = 2;
-            lblClass.Text = "Turma:";
+            lblClass.Text = "Class:";
             // 
             // cmbClasses
             // 
@@ -92,7 +92,7 @@
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(60, 22);
             lblDate.TabIndex = 4;
-            lblDate.Text = "Data:";
+            lblDate.Text = "Date:";
             // 
             // dtpDate
             // 

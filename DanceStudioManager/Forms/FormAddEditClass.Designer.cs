@@ -52,6 +52,8 @@ namespace DanceStudioManager.Forms
             // 
             // lblNome
             // 
+            lblNome.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lblNome.ForeColor = Color.FromArgb(128, 64, 64);
             lblNome.Location = new Point(20, 20);
             lblNome.Name = "lblNome";
             lblNome.Size = new Size(100, 23);
@@ -67,6 +69,8 @@ namespace DanceStudioManager.Forms
             // 
             // lblProfessor
             // 
+            lblProfessor.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lblProfessor.ForeColor = Color.FromArgb(128, 64, 64);
             lblProfessor.Location = new Point(20, 85);
             lblProfessor.Name = "lblProfessor";
             lblProfessor.Size = new Size(100, 23);
@@ -82,9 +86,11 @@ namespace DanceStudioManager.Forms
             // 
             // lblDiaSemana
             // 
+            lblDiaSemana.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lblDiaSemana.ForeColor = Color.FromArgb(128, 64, 64);
             lblDiaSemana.Location = new Point(20, 150);
             lblDiaSemana.Name = "lblDiaSemana";
-            lblDiaSemana.Size = new Size(100, 23);
+            lblDiaSemana.Size = new Size(129, 23);
             lblDiaSemana.TabIndex = 4;
             lblDiaSemana.Text = "Day of Week:";
             // 
@@ -99,6 +105,8 @@ namespace DanceStudioManager.Forms
             // 
             // lblHorario
             // 
+            lblHorario.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lblHorario.ForeColor = Color.FromArgb(128, 64, 64);
             lblHorario.Location = new Point(20, 215);
             lblHorario.Name = "lblHorario";
             lblHorario.Size = new Size(100, 23);
@@ -116,6 +124,8 @@ namespace DanceStudioManager.Forms
             // 
             // lblVagas
             // 
+            lblVagas.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lblVagas.ForeColor = Color.FromArgb(128, 64, 64);
             lblVagas.Location = new Point(20, 280);
             lblVagas.Name = "lblVagas";
             lblVagas.Size = new Size(100, 23);
@@ -133,25 +143,33 @@ namespace DanceStudioManager.Forms
             // 
             // btnSalvar
             // 
+            btnSalvar.BackColor = Color.RosyBrown;
+            btnSalvar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSalvar.ForeColor = SystemColors.ButtonFace;
             btnSalvar.Location = new Point(200, 340);
             btnSalvar.Name = "btnSalvar";
             btnSalvar.Size = new Size(75, 33);
             btnSalvar.TabIndex = 10;
             btnSalvar.Text = "Save";
+            btnSalvar.UseVisualStyleBackColor = false;
             btnSalvar.Click += btnSalvar_Click;
             // 
             // btnCancelar
             // 
+            btnCancelar.BackColor = Color.RosyBrown;
+            btnCancelar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.ForeColor = SystemColors.ButtonFace;
             btnCancelar.Location = new Point(290, 340);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(75, 33);
             btnCancelar.TabIndex = 11;
             btnCancelar.Text = "Cancel";
+            btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += btnCancelar_Click;
             // 
             // FormAddEditClass
             // 
-            BackColor = Color.RosyBrown;
+            BackColor = Color.LavenderBlush;
             ClientSize = new Size(420, 400);
             Controls.Add(lblNome);
             Controls.Add(txtNome);

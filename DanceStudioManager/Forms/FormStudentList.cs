@@ -147,5 +147,10 @@ namespace DanceStudioManager.Forms
         {
             await RefreshGrid();
         }
+
+        private void btnRefresh_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
