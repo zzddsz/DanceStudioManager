@@ -10,7 +10,7 @@ namespace DanceStudioManager.Forms
     public partial class FormAddEditTeacher : Form
     {
         private readonly TeacherService _service;
-        private int? _idEdicao = null;
+        private int? _editId = null;
 
         public FormAddEditTeacher(TeacherService service)
         {
@@ -18,81 +18,57 @@ namespace DanceStudioManager.Forms
             InitializeComponent();
             ApplyTheme();
 
-            btnSave.Click += BtnSave_Click;
-            btnCancel.Click += BtnCancel_Click;
+            if (btnSave != null) { btnSave.Click -= BtnSave_Click; btnSave.Click += BtnSave_Click; }
+            if (btnCancel != null) { btnCancel.Click -= BtnCancel_Click; btnCancel.Click += BtnCancel_Click; }
         }
 
         public void LoadForEdit(TeacherViewModel dto)
         {
-            _idEdicao = dto.Id;
+            _editId = dto.Id;
             txtName.Text = dto.Name;
-            txtSpeciality.Text = dto.Specialty;
+            txtSpecialty.Text = dto.Specialty;
         }
 
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                MessageBox.Show("Nome é obrigatório.");
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(txtName.Text)) return;
 
-            var dto = new TeacherViewModel
-            {
-                Id = _idEdicao ?? 0,
+            // 1. Usa nome único para evitar erro de variável 'b'
+            if (sender is Button btnSender) btnSender.Enabled = false;
+
+            var dto = new TeacherViewModel {
+                Id = _editId ?? 0,
                 Name = txtName.Text.Trim(),
-                Specialty = txtSpeciality.Text.Trim()
+                Specialty = txtSpecialty.Text.Trim()
             };
 
             try
             {
-                if (_idEdicao == null)
-                {
-                    await _service.Add<TeacherViewModel, TeacherViewModel, TeacherValidator>(dto);
-                }
-                else
-                {
-                    await _service.Update<TeacherViewModel, TeacherViewModel, TeacherValidator>(dto);
-                }
+                if (_editId == null) await _service.Add<TeacherViewModel, TeacherViewModel, TeacherValidator>(dto);
+                else await _service.Update<TeacherViewModel, TeacherViewModel, TeacherValidator>(dto);
 
+                MessageBox.Show("Salvo!");
                 DialogResult = DialogResult.OK;
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Erro ao salvar: " + ex.Message,
-                    "Validação",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show("Erro: " + ex.Message);
+            }
+            finally
+            {
+                // 2. Usa nome único para evitar erro de variável 'b'
+                if (sender is Button btnFinally) btnFinally.Enabled = true;
             }
         }
 
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
+        private void BtnCancel_Click(object sender, EventArgs e) => Close();
 
         private void ApplyTheme()
         {
             BackColor = Color.FromArgb(255, 235, 245);
-
-            if (Controls.ContainsKey("panelMain"))
-                Controls["panelMain"].BackColor = Color.White;
-
-            StyleButton(btnSave);
-            StyleButton(btnCancel);
-        }
-
-        private static void StyleButton(Button btn)
-        {
-            if (btn == null) return;
-
-            btn.BackColor = Color.RosyBrown;
-            btn.ForeColor = Color.White;
-            btn.FlatStyle = FlatStyle.Flat;
+            if (btnSave != null) { btnSave.BackColor = Color.RosyBrown; btnSave.ForeColor = Color.White; btnSave.FlatStyle = FlatStyle.Flat; }
+            if (btnCancel != null) { btnCancel.BackColor = Color.RosyBrown; btnCancel.ForeColor = Color.White; btnCancel.FlatStyle = FlatStyle.Flat; }
         }
     }
 }

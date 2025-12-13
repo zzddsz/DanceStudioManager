@@ -42,7 +42,6 @@ namespace DanceStudioManager.Views
                 btnCancel.Click += btnCancel_Click;
             }
 
-            // Garante que o Load só roda uma vez
             this.Load -= FormAddEditEnrollment_Load;
             this.Load += FormAddEditEnrollment_Load;
         }
@@ -56,8 +55,7 @@ namespace DanceStudioManager.Views
         {
             try
             {
-                // CORREÇÃO DO ERRO "SECOND OPERATION":
-                // Carregamos SEQUENCIALMENTE (um termina, depois o outro começa)
+                // Carregamento sequencial
                 var listaAlunos = await _studentService.Get<StudentViewModel>();
                 var listaAulas = await _classService.Get<DanceClassViewModel>();
 
@@ -89,8 +87,7 @@ namespace DanceStudioManager.Views
                 return;
             }
 
-            // CORREÇÃO DA VARIÁVEL 'b':
-            // Usei o nome 'btnSender' para não dar conflito
+            // CORREÇÃO: Nome 'btnSender'
             if (sender is Button btnSender) btnSender.Enabled = false;
 
             var dto = new EnrollmentViewModel
@@ -118,6 +115,7 @@ namespace DanceStudioManager.Views
             }
             finally
             {
+                // CORREÇÃO: Nome 'btnFinally'
                 if (sender is Button btnFinally) btnFinally.Enabled = true;
             }
         }

@@ -5,9 +5,11 @@ namespace DanceStudio.Repository.Context
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
+        // 1. CONSTRUTOR VAZIO (Essencial para Migrations)
+        public AppDbContext() { }
+
+        // 2. CONSTRUTOR PADRÃO (Essencial para o App)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<DanceClass> DanceClasses { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -26,50 +28,39 @@ namespace DanceStudio.Repository.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            // ==============================================================
-            // FORÇANDO A CRIAÇÃO DAS TABELAS (Sem depender de arquivos Map)
-            // ==============================================================
-
-            // Tabela DanceClass
+            // --- AULA (DanceClass) ---
             modelBuilder.Entity<DanceClass>(entity =>
             {
-                entity.ToTable("DanceClass"); // Nome exato no banco
+                entity.ToTable("DanceClass");
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Name).IsRequired();
+
+                // IMPORTANTE: Se deletar o Professor, o campo na aula vira NULL (não apaga a aula)
+                entity.HasOne(e => e.Teacher)
+                      .WithMany(t => t.DanceClass)
+                      .HasForeignKey(e => e.TeacherId)
+                      .OnDelete(DeleteBehavior.SetNull);
             });
 
-            // Tabela Student
-            modelBuilder.Entity<Student>(entity =>
-            {
-                entity.ToTable("Student");
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            // --- ALUNO (Student) ---
+            modelBuilder.Entity<Student>(e => {
+                e.ToTable("Student");
+                e.HasKey(x => x.Id);
             });
 
-            // Tabela Teacher
-            modelBuilder.Entity<Teacher>(entity =>
-            {
-                entity.ToTable("Teacher");
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            // --- PROFESSOR (Teacher) ---
+            modelBuilder.Entity<Teacher>(e => {
+                e.ToTable("Teacher");
+                e.HasKey(x => x.Id);
             });
 
-            // Tabela Enrollment
-            modelBuilder.Entity<Enrollment>(entity =>
-            {
-                entity.ToTable("Enrollment");
-                entity.HasKey(e => e.Id);
-
-                // Relacionamentos
-                entity.HasOne(e => e.Student)
-                      .WithMany()
-                      .HasForeignKey(e => e.StudentId)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(e => e.DanceClass)
-                      .WithMany()
-                      .HasForeignKey(e => e.DanceClassId)
-                      .OnDelete(DeleteBehavior.Cascade);
+            // --- MATRÍCULA (Enrollment) ---
+            modelBuilder.Entity<Enrollment>(e => {
+                e.ToTable("Enrollment");
+                e.HasKey(x => x.Id);
+                // Se apagar aluno ou aula, apaga a matrícula junto (Cascade)
+                e.HasOne(x => x.Student).WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(x => x.DanceClass).WithMany().HasForeignKey(x => x.DanceClassId).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

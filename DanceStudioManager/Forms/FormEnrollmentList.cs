@@ -16,9 +16,6 @@ namespace DanceStudioManager
         private readonly StudentService _studentService;
         private readonly DanceClassService _classService;
 
-        private readonly Color corPainel = Color.FromArgb(115, 55, 55);
-        private readonly Color corBotao = Color.FromArgb(178, 122, 122);
-
         public FormEnrollmentList(
             EnrollmentService service,
             StudentService studentService,
@@ -31,10 +28,7 @@ namespace DanceStudioManager
             InitializeComponent();
             ApplyTheme();
 
-            // --- CORREÇÃO DE SEGURANÇA (EVITA O ERRO DE SECOND OPERATION) ---
-            // Removemos qualquer conexão anterior para garantir que só exista UMA.
-            // Isso impede que o Load rode 2x e trave o banco.
-
+            // Proteção de Eventos
             if (btnAdd != null) { btnAdd.Click -= BtnAdd_Click; btnAdd.Click += BtnAdd_Click; }
             if (btnDelete != null) { btnDelete.Click -= BtnDelete_Click; btnDelete.Click += BtnDelete_Click; }
 
@@ -46,7 +40,7 @@ namespace DanceStudioManager
         {
             this.BackColor = Color.FromArgb(255, 245, 245);
             this.Font = new Font("Segoe UI", 10);
-            if (panelTop != null) panelTop.BackColor = corPainel;
+            if (panelTop != null) panelTop.BackColor = Color.FromArgb(115, 55, 55);
             StyleButton(btnAdd);
             StyleButton(btnDelete);
         }
@@ -54,12 +48,13 @@ namespace DanceStudioManager
         private void StyleButton(Button btn)
         {
             if (btn == null) return;
-            btn.BackColor = corBotao;
+            btn.BackColor = Color.FromArgb(178, 122, 122);
             btn.ForeColor = Color.White;
             btn.FlatStyle = FlatStyle.Flat;
             btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             btn.FlatAppearance.BorderSize = 1;
             btn.FlatAppearance.BorderColor = Color.White;
+            btn.Cursor = Cursors.Hand;
         }
 
         private async void FormEnrollmentList_Load(object sender, EventArgs e)

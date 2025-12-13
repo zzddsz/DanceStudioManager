@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace DanceStudio.Repository.Repositories
 {
@@ -19,31 +20,37 @@ namespace DanceStudio.Repository.Repositories
             _dataset = _context.Set<TEntity>();
         }
 
-        // ================= ADD =================
         public async Task InsertAsync(TEntity entity)
         {
             await _dataset.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        // ================= UPDATE =================
         public async Task UpdateAsync(TEntity entity)
         {
+            // --- FIX CRÍTICO: DETACH ---
+            // Verifica se o objeto já está na memória do EF e o solta para evitar conflito
+            var local = _dataset.Local.FirstOrDefault(entry => entry.Id.Equals(entity.Id));
+            if (local != null)
+            {
+                _context.Entry(local).State = EntityState.Detached;
+            }
+
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        // ================= DELETE (CORRIGIDO) =================
         public async Task DeleteAsync(int id)
         {
-            var entity = Activator.CreateInstance<TEntity>();
-            entity.Id = id;
-
-            _context.Entry(entity).State = EntityState.Deleted;
-            await _context.SaveChangesAsync();
+            // Busca e remove corretamente
+            var entity = await _dataset.FindAsync(id);
+            if (entity != null)
+            {
+                _dataset.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        // ================= GET ALL =================
         public async Task<IList<TEntity>> SelectAsync(IList<string>? includes = null)
         {
             IQueryable<TEntity> query = _dataset;
@@ -54,12 +61,10 @@ namespace DanceStudio.Repository.Repositories
                     query = query.Include(include);
             }
 
-            return await query
-                .AsNoTracking()
-                .ToListAsync();
+            // AsNoTracking evita conflitos futuros ao abrir telas de edição
+            return await query.AsNoTracking().ToListAsync();
         }
 
-        // ================= GET BY ID =================
         public async Task<TEntity> SelectAsync(int id, IList<string>? includes = null)
         {
             IQueryable<TEntity> query = _dataset;
@@ -70,9 +75,7 @@ namespace DanceStudio.Repository.Repositories
                     query = query.Include(include);
             }
 
-            return await query
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == id);
+            return await query.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

@@ -1,8 +1,8 @@
 using DanceStudio.Service.Services;
-using DanceStudioManager.ViewModel; // Namespace onde está DanceClassViewModel
+using DanceStudioManager.ViewModel;
 using System;
 using System.Drawing;
-using System.Linq; // NECESSÁRIO para o .ToList()
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,12 +11,23 @@ namespace DanceStudioManager.Forms
     public partial class FormClass : Form
     {
         private readonly DanceClassService _service;
+        private readonly TeacherService _teacherService; // Necessário para passar ao FormAddEdit
 
-        public FormClass(DanceClassService service)
+        public FormClass(DanceClassService service, TeacherService teacherService)
         {
             _service = service;
+            _teacherService = teacherService;
             InitializeComponent();
             ApplyStyle();
+
+            // Proteção de Eventos
+            if (btnAdd != null) { btnAdd.Click -= BtnAdd_Click; btnAdd.Click += BtnAdd_Click; }
+            if (btnEdit != null) { btnEdit.Click -= BtnEdit_Click; btnEdit.Click += BtnEdit_Click; }
+            if (btnDelete != null) { btnDelete.Click -= BtnDelete_Click; btnDelete.Click += BtnDelete_Click; }
+            if (btnRefresh != null) { btnRefresh.Click -= BtnRefresh_Click; btnRefresh.Click += BtnRefresh_Click; }
+
+            this.Load -= FormClass_Load;
+            this.Load += FormClass_Load;
         }
 
         private async void FormClass_Load(object sender, EventArgs e)
@@ -28,59 +39,44 @@ namespace DanceStudioManager.Forms
         {
             try
             {
+                // Inclui "Teacher" para exibir o nome do professor no Grid
+                var includes = new System.Collections.Generic.List<string> { "Teacher" };
+                var list = await _service.Get<DanceClassViewModel>(includes);
+
                 if (dgv != null)
                 {
-                    // MÉTODO GENÉRICO: Get<T>()
-                    var list = await _service.Get<DanceClassViewModel>();
-
                     dgv.DataSource = null;
-                    dgv.DataSource = list.ToList(); // Converter para Lista ajuda o Grid
+                    dgv.DataSource = list.ToList();
 
-                    ConfigurarGrid();
+                    if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
+                    if (dgv.Columns["TeacherId"] != null) dgv.Columns["TeacherId"].Visible = false; // Oculta ID técnico
+
+                    if (dgv.Columns["Name"] != null) dgv.Columns["Name"].HeaderText = "Class Name";
+                    if (dgv.Columns["TeacherName"] != null) dgv.Columns["TeacherName"].HeaderText = "Teacher";
+                    if (dgv.Columns["DayOfWeek"] != null) dgv.Columns["DayOfWeek"].HeaderText = "Day";
+                    if (dgv.Columns["Time"] != null) dgv.Columns["Time"].HeaderText = "Time";
+                    if (dgv.Columns["MaxStudents"] != null) dgv.Columns["MaxStudents"].HeaderText = "Max Students";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar lista: " + ex.Message);
+                MessageBox.Show("Error loading classes: " + ex.Message);
             }
         }
 
-        private void ConfigurarGrid()
-        {
-            if (dgv == null) return;
-
-            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv.RowHeadersVisible = false;
-            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv.BackgroundColor = Color.White;
-
-            if (dgv.Columns.Count > 0)
-            {
-                if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
-
-                if (dgv.Columns["Name"] != null) dgv.Columns["Name"].HeaderText = "Name";
-                if (dgv.Columns["Teacher"] != null) dgv.Columns["Teacher"].HeaderText = "Teacher";
-                if (dgv.Columns["DayOfWeek"] != null) dgv.Columns["DayOfWeek"].HeaderText = "DayOfWeek";
-                if (dgv.Columns["Time"] != null) dgv.Columns["Time"].HeaderText = "Time";
-                if (dgv.Columns["MaxStudents"] != null) dgv.Columns["MaxStudents"].HeaderText = "Vacancies";
-            }
-        }
-
-        private void BtnAdd_Click(object sender, EventArgs e)
+        private async void BtnAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                // Instancia o formulário de cadastro (que está no mesmo namespace .Forms)
-                var f = new FormAddEditClass(_service);
-
+                var f = new FormAddEditClass(_service, _teacherService);
                 if (f.ShowDialog() == DialogResult.OK)
                 {
-                    _ = RefreshGrid();
+                    await RefreshGrid();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao abrir formulário: " + ex.Message);
+                MessageBox.Show("Error opening form: " + ex.Message);
             }
         }
 
@@ -88,20 +84,19 @@ namespace DanceStudioManager.Forms
         {
             if (dgv.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Selecione uma aula para editar.");
+                MessageBox.Show("Select a class to edit.");
                 return;
             }
 
             try
             {
                 int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-
-                // MÉTODO GENÉRICO: GetById<T>(id)
-                var viewModel = await _service.GetById<DanceClassViewModel>(id);
+                var includes = new System.Collections.Generic.List<string> { "Teacher" };
+                var viewModel = await _service.GetById<DanceClassViewModel>(id, includes);
 
                 if (viewModel != null)
                 {
-                    var f = new FormAddEditClass(_service);
+                    var f = new FormAddEditClass(_service, _teacherService);
                     f.LoadClass(viewModel);
 
                     if (f.ShowDialog() == DialogResult.OK)
@@ -112,7 +107,7 @@ namespace DanceStudioManager.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao editar: " + ex.Message);
+                MessageBox.Show("Error editing: " + ex.Message);
             }
         }
 
@@ -120,21 +115,17 @@ namespace DanceStudioManager.Forms
         {
             if (dgv.SelectedRows.Count == 0) return;
 
-            if (MessageBox.Show("Excluir aula?", "Confirmação", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Delete class?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 try
                 {
                     int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-
-                    // MÉTODO GENÉRICO: Delete(id)
-                    // Ele é void Task e lança exceção se falhar
                     await _service.Delete(id);
-
                     await RefreshGrid();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Erro: " + ex.Message);
+                    MessageBox.Show("Error deleting: " + ex.Message);
                 }
             }
         }
@@ -146,7 +137,14 @@ namespace DanceStudioManager.Forms
 
         private void ApplyStyle()
         {
-            this.BackColor = Color.FromArgb(255, 245, 250);
+            if (dgv != null)
+            {
+                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dgv.BackgroundColor = Color.White;
+                dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgv.RowHeadersVisible = false;
+                dgv.BorderStyle = BorderStyle.None;
+            }
 
             Button[] botoes = { btnAdd, btnEdit, btnDelete, btnRefresh };
             foreach (var btn in botoes)
@@ -156,6 +154,8 @@ namespace DanceStudioManager.Forms
                     btn.BackColor = Color.RosyBrown;
                     btn.ForeColor = Color.White;
                     btn.FlatStyle = FlatStyle.Flat;
+                    btn.Cursor = Cursors.Hand;
+                    btn.FlatAppearance.BorderSize = 0;
                 }
             }
         }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DanceStudio.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251213015103_InitialCreate")]
+    [Migration("20251213161441_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,11 +36,6 @@ namespace DanceStudio.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Teacher")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -96,8 +91,7 @@ namespace DanceStudio.Repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -112,8 +106,7 @@ namespace DanceStudio.Repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Specialty")
                         .IsRequired()
@@ -126,9 +119,12 @@ namespace DanceStudio.Repository.Migrations
 
             modelBuilder.Entity("DanceStudio.Domain.Entities.DanceClass", b =>
                 {
-                    b.HasOne("DanceStudio.Domain.Entities.Teacher", null)
+                    b.HasOne("DanceStudio.Domain.Entities.Teacher", "Teacher")
                         .WithMany("DanceClass")
-                        .HasForeignKey("TeacherId");
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("DanceStudio.Domain.Entities.Enrollment", b =>

@@ -21,7 +21,7 @@ namespace DanceStudio.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Level = table.Column<string>(type: "longtext", nullable: false)
                 },
@@ -37,7 +37,7 @@ namespace DanceStudio.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
                     Specialty = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
@@ -52,8 +52,7 @@ namespace DanceStudio.Repository.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Teacher = table.Column<string>(type: "longtext", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
                     DayOfWeek = table.Column<string>(type: "longtext", nullable: false),
                     Time = table.Column<TimeSpan>(type: "time(6)", nullable: false),
                     MaxStudents = table.Column<int>(type: "int", nullable: false),
@@ -66,7 +65,8 @@ namespace DanceStudio.Repository.Migrations
                         name: "FK_DanceClass_Teacher_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teacher",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

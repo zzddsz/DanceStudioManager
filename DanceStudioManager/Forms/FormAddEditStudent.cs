@@ -18,8 +18,9 @@ namespace DanceStudioManager.Forms
             InitializeComponent();
             ApplyTheme();
 
-            if (btnSave != null) btnSave.Click += BtnSave_Click;
-            if (btnCancel != null) btnCancel.Click += BtnCancel_Click;
+            // Proteção de Eventos
+            if (btnSave != null) { btnSave.Click -= BtnSave_Click; btnSave.Click += BtnSave_Click; }
+            if (btnCancel != null) { btnCancel.Click -= BtnCancel_Click; btnCancel.Click += BtnCancel_Click; }
         }
 
         public void LoadStudent(StudentViewModel viewModel)
@@ -34,45 +35,50 @@ namespace DanceStudioManager.Forms
         {
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("O nome é obrigatório.");
+                MessageBox.Show("Name is required.");
                 return;
             }
 
+            if (!int.TryParse(txtAge.Text, out int idade))
+            {
+                MessageBox.Show("Age must be a number.");
+                return;
+            }
+
+            // CORREÇÃO: Nome 'btnSender'
             if (sender is Button btnSender) btnSender.Enabled = false;
+
+            var viewModel = new StudentViewModel
+            {
+                Id = _editing != null ? _editing.Id : 0,
+                Name = txtName.Text.Trim(),
+                Age = idade,
+                Level = txtLevel.Text.Trim()
+            };
 
             try
             {
-                int.TryParse(txtAge.Text, out int idade);
-
-                var viewModel = new StudentViewModel
-                {
-                    Id = _editing != null ? _editing.Id : 0,
-                    Name = txtName.Text,
-                    Age = idade,
-                    Level = txtLevel.Text
-                };
-
                 if (_editing == null)
                 {
-                    // Add<Input, Output, Validator>
                     await _service.Add<StudentViewModel, StudentViewModel, StudentValidator>(viewModel);
                 }
                 else
                 {
-                    // Update<Input, Output, Validator>
                     await _service.Update<StudentViewModel, StudentViewModel, StudentValidator>(viewModel);
                 }
 
+                MessageBox.Show("Saved successfully!");
                 DialogResult = DialogResult.OK;
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                if (sender is Button btnError) btnError.Enabled = true;
+                // CORREÇÃO: Nome 'btnFinally'
+                if (sender is Button btnFinally) btnFinally.Enabled = true;
             }
         }
 
@@ -84,8 +90,9 @@ namespace DanceStudioManager.Forms
 
         private void ApplyTheme()
         {
-            this.BackColor = Color.FromArgb(255, 235, 245);
+            BackColor = Color.FromArgb(255, 235, 245);
             if (Controls.ContainsKey("panelMain")) Controls["panelMain"].BackColor = Color.White;
+
             StyleButton(btnSave);
             StyleButton(btnCancel);
         }
@@ -93,10 +100,10 @@ namespace DanceStudioManager.Forms
         private static void StyleButton(Button btn)
         {
             if (btn == null) return;
-            btn.BackColor = Color.FromArgb(255, 170, 200);
+            btn.BackColor = Color.RosyBrown;
             btn.ForeColor = Color.White;
             btn.FlatStyle = FlatStyle.Flat;
-            btn.Font = new Font("Tahoma", 9F, FontStyle.Bold);
+            btn.Cursor = Cursors.Hand;
             btn.FlatAppearance.BorderSize = 0;
         }
     }

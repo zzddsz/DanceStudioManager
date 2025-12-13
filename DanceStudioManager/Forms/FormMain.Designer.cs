@@ -28,155 +28,145 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            panelSidebar = new Panel();
-            btnEnrollments = new Button();
-            btnClasses = new Button();
-            btnStudents = new Button();
-            btnTeachers = new Button();
-            panelHeader = new Panel();
-            lblTitle = new Label();
-            panelContent = new Panel();
-            panelSidebar.SuspendLayout();
-            panelHeader.SuspendLayout();
-            SuspendLayout();
-            // 
-            // panelSidebar
-            // 
-            panelSidebar.BackColor = Color.FromArgb(115, 55, 55);
-            panelSidebar.Controls.Add(btnEnrollments);
-            panelSidebar.Controls.Add(btnClasses);
-            panelSidebar.Controls.Add(btnStudents);
-            panelSidebar.Controls.Add(btnTeachers);
-            panelSidebar.Dock = DockStyle.Left;
-            panelSidebar.Location = new Point(0, 0);
-            panelSidebar.Name = "panelSidebar";
-            panelSidebar.Padding = new Padding(15, 25, 15, 0);
-            panelSidebar.Size = new Size(230, 600);
-            panelSidebar.TabIndex = 2;
-            // 
-            // btnEnrollments
-            // 
-            btnEnrollments.BackColor = Color.FromArgb(195, 145, 145);
-            btnEnrollments.Dock = DockStyle.Top;
-            btnEnrollments.FlatAppearance.BorderColor = Color.White;
-            btnEnrollments.FlatAppearance.MouseDownBackColor = Color.FromArgb(175, 125, 125);
-            btnEnrollments.FlatAppearance.MouseOverBackColor = Color.FromArgb(215, 165, 165);
-            btnEnrollments.FlatStyle = FlatStyle.Flat;
-            btnEnrollments.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnEnrollments.ForeColor = Color.White;
-            btnEnrollments.Location = new Point(15, 190);
-            btnEnrollments.Name = "btnEnrollments";
-            btnEnrollments.Size = new Size(200, 55);
-            btnEnrollments.TabIndex = 0;
-            btnEnrollments.Text = "Scheduling";
-            btnEnrollments.UseVisualStyleBackColor = false;
-            btnEnrollments.Click += BtnEnrollments_Click;
-            // 
-            // btnClasses
-            // 
-            btnClasses.BackColor = Color.FromArgb(195, 145, 145);
-            btnClasses.Dock = DockStyle.Top;
-            btnClasses.FlatAppearance.BorderColor = Color.White;
-            btnClasses.FlatAppearance.MouseDownBackColor = Color.FromArgb(175, 125, 125);
-            btnClasses.FlatAppearance.MouseOverBackColor = Color.FromArgb(215, 165, 165);
-            btnClasses.FlatStyle = FlatStyle.Flat;
-            btnClasses.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnClasses.ForeColor = Color.White;
-            btnClasses.Location = new Point(15, 135);
-            btnClasses.Name = "btnClasses";
-            btnClasses.Size = new Size(200, 55);
-            btnClasses.TabIndex = 1;
-            btnClasses.Text = "Classes";
-            btnClasses.UseVisualStyleBackColor = false;
-            btnClasses.Click += BtnClasses_Click;
-            // 
-            // btnStudents
-            // 
-            btnStudents.BackColor = Color.FromArgb(195, 145, 145);
-            btnStudents.Dock = DockStyle.Top;
-            btnStudents.FlatAppearance.BorderColor = Color.White;
-            btnStudents.FlatAppearance.MouseDownBackColor = Color.FromArgb(175, 125, 125);
-            btnStudents.FlatAppearance.MouseOverBackColor = Color.FromArgb(215, 165, 165);
-            btnStudents.FlatStyle = FlatStyle.Flat;
-            btnStudents.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnStudents.ForeColor = Color.White;
-            btnStudents.Location = new Point(15, 80);
-            btnStudents.Name = "btnStudents";
-            btnStudents.Size = new Size(200, 55);
-            btnStudents.TabIndex = 2;
-            btnStudents.Text = "Students";
-            btnStudents.UseVisualStyleBackColor = false;
-            btnStudents.Click += BtnStudents_Click;
-            // 
-            // btnTeachers
-            // 
-            btnTeachers.BackColor = Color.FromArgb(195, 145, 145);
-            btnTeachers.Dock = DockStyle.Top;
-            btnTeachers.FlatAppearance.BorderColor = Color.White;
-            btnTeachers.FlatAppearance.MouseDownBackColor = Color.FromArgb(175, 125, 125);
-            btnTeachers.FlatAppearance.MouseOverBackColor = Color.FromArgb(215, 165, 165);
-            btnTeachers.FlatStyle = FlatStyle.Flat;
-            btnTeachers.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnTeachers.ForeColor = Color.White;
-            btnTeachers.Location = new Point(15, 25);
-            btnTeachers.Name = "btnTeachers";
-            btnTeachers.Size = new Size(200, 55);
-            btnTeachers.TabIndex = 3;
-            btnTeachers.Text = "Teachers";
-            btnTeachers.UseVisualStyleBackColor = false;
-            btnTeachers.Click += BtnTeachers_Click;
-            // 
-            // panelHeader
-            // 
-            panelHeader.BackColor = Color.FromArgb(115, 55, 55);
-            panelHeader.Controls.Add(lblTitle);
-            panelHeader.Dock = DockStyle.Top;
-            panelHeader.Location = new Point(230, 0);
-            panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(770, 90);
-            panelHeader.TabIndex = 1;
-            // 
-            // lblTitle
-            // 
-            lblTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            lblTitle.Font = new Font("Elephant", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(0, 25);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(767, 62);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Dance Studio Manager";
-            lblTitle.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // panelContent
-            // 
-            panelContent.BackColor = Color.MistyRose;
-            panelContent.BackgroundImage = (Image)resources.GetObject("panelContent.BackgroundImage");
-            panelContent.BackgroundImageLayout = ImageLayout.Stretch;
-            panelContent.Dock = DockStyle.Fill;
-            panelContent.Location = new Point(230, 90);
-            panelContent.Name = "panelContent";
-            panelContent.Size = new Size(770, 510);
-            panelContent.TabIndex = 0;
-            // 
-            // FormMain
-            // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            ClientSize = new Size(1000, 600);
-            Controls.Add(panelContent);
-            Controls.Add(panelHeader);
-            Controls.Add(panelSidebar);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            Name = "FormMain";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Dance Studio Manager";
-            Load += FormMain_Load;
-            panelSidebar.ResumeLayout(false);
-            panelHeader.ResumeLayout(false);
-            ResumeLayout(false);
+            this.panelSidebar = new System.Windows.Forms.Panel();
+            this.btnEnrollments = new System.Windows.Forms.Button();
+            this.btnClasses = new System.Windows.Forms.Button();
+            this.btnStudents = new System.Windows.Forms.Button();
+            this.btnTeachers = new System.Windows.Forms.Button();
+            this.panelHeader = new System.Windows.Forms.Panel();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.panelContent = new System.Windows.Forms.Panel();
+            this.panelSidebar.SuspendLayout();
+            this.panelHeader.SuspendLayout();
+            this.SuspendLayout();
 
+            // panelSidebar
+            this.panelSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.panelSidebar.Controls.Add(this.btnEnrollments);
+            this.panelSidebar.Controls.Add(this.btnClasses);
+            this.panelSidebar.Controls.Add(this.btnStudents);
+            this.panelSidebar.Controls.Add(this.btnTeachers);
+            this.panelSidebar.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelSidebar.Location = new System.Drawing.Point(0, 0);
+            this.panelSidebar.Name = "panelSidebar";
+            this.panelSidebar.Padding = new System.Windows.Forms.Padding(15, 25, 15, 0);
+            this.panelSidebar.Size = new System.Drawing.Size(230, 600);
+            this.panelSidebar.TabIndex = 2;
+
+            // btnEnrollments
+            this.btnEnrollments.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.btnEnrollments.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnEnrollments.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnEnrollments.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnEnrollments.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.btnEnrollments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEnrollments.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnEnrollments.ForeColor = System.Drawing.Color.White;
+            this.btnEnrollments.Location = new System.Drawing.Point(15, 190);
+            this.btnEnrollments.Name = "btnEnrollments";
+            this.btnEnrollments.Size = new System.Drawing.Size(200, 55);
+            this.btnEnrollments.TabIndex = 0;
+            this.btnEnrollments.Text = "Scheduling";
+            this.btnEnrollments.UseVisualStyleBackColor = false;
+            this.btnEnrollments.Click += new System.EventHandler(this.BtnEnrollments_Click);
+
+            // btnClasses
+            this.btnClasses.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.btnClasses.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnClasses.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnClasses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnClasses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.btnClasses.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClasses.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnClasses.ForeColor = System.Drawing.Color.White;
+            this.btnClasses.Location = new System.Drawing.Point(15, 135);
+            this.btnClasses.Name = "btnClasses";
+            this.btnClasses.Size = new System.Drawing.Size(200, 55);
+            this.btnClasses.TabIndex = 1;
+            this.btnClasses.Text = "Classes";
+            this.btnClasses.UseVisualStyleBackColor = false;
+            this.btnClasses.Click += new System.EventHandler(this.BtnClasses_Click);
+
+            // btnStudents
+            this.btnStudents.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.btnStudents.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnStudents.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnStudents.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnStudents.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.btnStudents.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStudents.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnStudents.ForeColor = System.Drawing.Color.White;
+            this.btnStudents.Location = new System.Drawing.Point(15, 80);
+            this.btnStudents.Name = "btnStudents";
+            this.btnStudents.Size = new System.Drawing.Size(200, 55);
+            this.btnStudents.TabIndex = 2;
+            this.btnStudents.Text = "Students";
+            this.btnStudents.UseVisualStyleBackColor = false;
+            this.btnStudents.Click += new System.EventHandler(this.BtnStudents_Click);
+
+            // btnTeachers
+            this.btnTeachers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.btnTeachers.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnTeachers.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnTeachers.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnTeachers.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(165)))), ((int)(((byte)(165)))));
+            this.btnTeachers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTeachers.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnTeachers.ForeColor = System.Drawing.Color.White;
+            this.btnTeachers.Location = new System.Drawing.Point(15, 25);
+            this.btnTeachers.Name = "btnTeachers";
+            this.btnTeachers.Size = new System.Drawing.Size(200, 55);
+            this.btnTeachers.TabIndex = 3;
+            this.btnTeachers.Text = "Teachers";
+            this.btnTeachers.UseVisualStyleBackColor = false;
+            this.btnTeachers.Click += new System.EventHandler(this.BtnTeachers_Click);
+
+            // panelHeader
+            this.panelHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.panelHeader.Controls.Add(this.lblTitle);
+            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelHeader.Location = new System.Drawing.Point(230, 0);
+            this.panelHeader.Name = "panelHeader";
+            this.panelHeader.Size = new System.Drawing.Size(770, 90);
+            this.panelHeader.TabIndex = 1;
+
+            // lblTitle
+            this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTitle.Font = new System.Drawing.Font("Elephant", 19.8000011F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(0, 25);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(767, 62);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Dance Studio Manager";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+
+            // panelContent
+            this.panelContent.BackColor = System.Drawing.Color.MistyRose;
+            this.panelContent.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelContent.BackgroundImage")));
+            this.panelContent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelContent.Location = new System.Drawing.Point(230, 90);
+            this.panelContent.Name = "panelContent";
+            this.panelContent.Size = new System.Drawing.Size(770, 510);
+            this.panelContent.TabIndex = 0;
+
+            // FormMain
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.panelContent);
+            this.Controls.Add(this.panelHeader);
+            this.Controls.Add(this.panelSidebar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Dance Studio Manager";
+            this.Load += new System.EventHandler(this.FormMain_Load);
+            this.panelSidebar.ResumeLayout(false);
+            this.panelHeader.ResumeLayout(false);
+            this.ResumeLayout(false);
         }
 
         #endregion

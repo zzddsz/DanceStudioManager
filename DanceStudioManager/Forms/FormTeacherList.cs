@@ -16,114 +16,75 @@ namespace DanceStudioManager.Forms
         {
             _service = service;
             InitializeComponent();
+            ApplyStyle();
+
+            // Proteção contra múltiplos cliques
+            if (btnAdd != null) { btnAdd.Click -= btnAdd_Click; btnAdd.Click += btnAdd_Click; }
+            if (btnEdit != null) { btnEdit.Click -= btnEdit_Click; btnEdit.Click += btnEdit_Click; }
+            if (btnDelete != null) { btnDelete.Click -= btnDelete_Click; btnDelete.Click += btnDelete_Click; }
+            if (btnRefresh != null) { btnRefresh.Click -= btnRefresh_Click; btnRefresh.Click += btnRefresh_Click; }
+
+            this.Load -= FormTeacherList_Load;
+            this.Load += FormTeacherList_Load;
         }
 
-        private async void FormTeacherList_Load(object sender, EventArgs e)
-        {
-            ApplyStyle();
-            await RefreshGrid();
-        }
+        private async void FormTeacherList_Load(object sender, EventArgs e) => await RefreshGrid();
+        private async void btnRefresh_Click(object sender, EventArgs e) => await RefreshGrid();
 
         private async Task RefreshGrid()
         {
             try
             {
+                var list = await _service.Get<TeacherViewModel>();
                 if (dgv != null)
                 {
-                    var list = await _service.Get<TeacherViewModel>();
-
                     dgv.DataSource = null;
                     dgv.DataSource = list.ToList();
-
-                    if (dgv.Columns["Id"] != null)
-                        dgv.Columns["Id"].Visible = false;
-
-                    if (dgv.Columns["Speciality"] != null)
-                        dgv.Columns["Speciality"].Visible = false;
+                    if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
+                    if (dgv.Columns["DanceClass"] != null) dgv.Columns["DanceClass"].Visible = false;
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar lista: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Erro: " + ex.Message); }
         }
 
-        // ================= ADD =================
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var f = new FormAddEditTeacher(_service);
-                if (f.ShowDialog() == DialogResult.OK)
-                {
-                    await RefreshGrid();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao abrir formulário: " + ex.Message);
-            }
+            if (new FormAddEditTeacher(_service).ShowDialog() == DialogResult.OK)
+                await RefreshGrid();
         }
 
-        // ================= EDIT =================
         private async void btnEdit_Click(object sender, EventArgs e)
         {
-            if (dgv.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Selecione um professor para editar.");
-                return;
-            }
+            if (dgv.SelectedRows.Count == 0) { MessageBox.Show("Selecione um professor."); return; }
 
             try
             {
                 int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-
                 var dto = await _service.GetById<TeacherViewModel>(id);
-
                 if (dto != null)
                 {
                     var f = new FormAddEditTeacher(_service);
                     f.LoadForEdit(dto);
-
-                    if (f.ShowDialog() == DialogResult.OK)
-                    {
-                        await RefreshGrid();
-                    }
+                    if (f.ShowDialog() == DialogResult.OK) await RefreshGrid();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao editar: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Erro: " + ex.Message); }
         }
 
-        // ================= DELETE =================
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            if (dgv.SelectedRows.Count == 0)
-                return;
+            if (dgv.SelectedRows.Count == 0) return;
 
-            if (MessageBox.Show("Excluir?", "Confirmação",
-                MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Deseja excluir?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 try
                 {
                     int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-
                     await _service.Delete(id);
                     await RefreshGrid();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao excluir: " + ex.Message);
-                }
+                catch (Exception ex) { MessageBox.Show("Erro ao excluir: " + ex.Message); }
             }
-        }
-
-        // ================= REFRESH =================
-        private async void btnRefresh_Click(object sender, EventArgs e)
-        {
-            await RefreshGrid();
         }
 
         private void ApplyStyle()
@@ -131,20 +92,9 @@ namespace DanceStudioManager.Forms
             if (dgv != null)
             {
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgv.BackgroundColor = Color.White;
                 dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgv.BackgroundColor = Color.White;
                 dgv.RowHeadersVisible = false;
-            }
-
-            Button[] botoes = { btnAdd, btnEdit, btnDelete, btnRefresh };
-            foreach (var btn in botoes)
-            {
-                if (btn != null)
-                {
-                    btn.BackColor = Color.RosyBrown;
-                    btn.FlatStyle = FlatStyle.Flat;
-                    btn.ForeColor = Color.White;
-                }
             }
         }
     }

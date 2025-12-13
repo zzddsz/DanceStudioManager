@@ -55,7 +55,6 @@
             this.btnAdd.TabIndex = 2;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
 
             // btnEdit
             this.btnEdit.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -69,7 +68,6 @@
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = false;
-            this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
 
             // btnDelete
             this.btnDelete.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -83,7 +81,6 @@
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
 
             // btnRefresh
             this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -97,7 +94,6 @@
             this.btnRefresh.TabIndex = 5;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = false;
-            this.btnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
 
             // topPanel
             this.topPanel.BackColor = System.Drawing.Color.RosyBrown;
@@ -130,10 +126,6 @@
             this.Name = "FormClass";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dance Studio Manager";
-
-            // CORRIGIDO: Nome do evento agora é FormClass_Load
-            this.Load += new System.EventHandler(this.FormClass_Load);
-
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.topPanel.ResumeLayout(false);
             this.ResumeLayout(false);
