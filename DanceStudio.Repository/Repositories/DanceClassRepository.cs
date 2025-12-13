@@ -1,46 +1,12 @@
-﻿using DanceStudio.Repository.Data;
-using DanceStudio.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using DanceStudio.Domain.Entities;
+using DanceStudio.Repository.Context;
 
 namespace DanceStudio.Repository.Repositories
 {
-    public class DanceClassRepository
+    public class DanceClassRepository : BaseRepository<DanceClass>
     {
-        private readonly AppDbContext _ctx;
-
-        public DanceClassRepository(AppDbContext ctx)
+        public DanceClassRepository(AppDbContext ctx) : base(ctx)
         {
-            _ctx = ctx;
-        }
-
-        public async Task<List<DanceClass>> GetAllAsync()
-        {
-            return await _ctx.DanceClasses
-                .AsNoTracking()
-                .ToListAsync();
-        }
-
-        public async Task<DanceClass?> GetByIdAsync(int id)
-        {
-            return await _ctx.DanceClasses.FindAsync(id);
-        }
-
-        public async Task AddAsync(DanceClass entity)
-        {
-            await _ctx.DanceClasses.AddAsync(entity);
-            await _ctx.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(DanceClass entity)
-        {
-            _ctx.DanceClasses.Update(entity);
-            await _ctx.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(DanceClass entity)
-        {
-            _ctx.DanceClasses.Remove(entity);
-            await _ctx.SaveChangesAsync();
         }
     }
 }

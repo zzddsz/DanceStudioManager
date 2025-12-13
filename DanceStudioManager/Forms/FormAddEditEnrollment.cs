@@ -1,65 +1,99 @@
-﻿using DanceStudio.Service.DTOs;
-using DanceStudioManager.Controllers;
-using ReaLTaiizor.Forms;
+﻿using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel;
+using DanceStudio.Service.Validators;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace DanceStudioManager.Views
 {
     public partial class FormAddEditEnrollment : Form
     {
-        private readonly EnrollmentController _controller;
-        private readonly StudentController _studentController;
-        private readonly DanceClassController _classController;
-
+        private readonly EnrollmentService _service;
+        private readonly StudentService _studentService;
+        private readonly DanceClassService _classService;
         private readonly int? _editId;
 
         public FormAddEditEnrollment(
-            EnrollmentController controller,
-            StudentController studentController,
-            DanceClassController classController,
+            EnrollmentService service,
+            StudentService studentService,
+            DanceClassService classService,
             int? id = null)
         {
             InitializeComponent();
-            _controller = controller;
-            _studentController = studentController;
-            _classController = classController;
+            _service = service;
+            _studentService = studentService;
+            _classService = classService;
             _editId = id;
 
-            CarregarCombos();
+            // Proteção contra cliques duplos e eventos
+            if (btnSave != null)
+            {
+                btnSave.BackColor = Color.FromArgb(255, 170, 200);
+                btnSave.Click -= btnSave_Click;
+                btnSave.Click += btnSave_Click;
+            }
+            if (btnCancel != null)
+            {
+                btnCancel.BackColor = Color.FromArgb(255, 170, 200);
+                btnCancel.Click -= btnCancel_Click;
+                btnCancel.Click += btnCancel_Click;
+            }
 
-            if (id != null)
-                CarregarDados(id.Value);
+            // Garante que o Load só roda uma vez
+            this.Load -= FormAddEditEnrollment_Load;
+            this.Load += FormAddEditEnrollment_Load;
         }
 
-        private async void CarregarCombos()
+        private async void FormAddEditEnrollment_Load(object sender, EventArgs e)
         {
-            var alunos = await _studentController.Listar();
-            cmbStudents.DataSource = alunos;
-            cmbStudents.DisplayMember = "Name";
-            cmbStudents.ValueMember = "Id";
-
-            var classes = await _classController.Listar();
-            cmbClasses.DataSource = classes;
-            cmbClasses.DisplayMember = "Name";
-            cmbClasses.ValueMember = "Id";
+            await CarregarCombos();
         }
 
-    
-        private async void CarregarDados(int id)
+        private async Task CarregarCombos()
         {
-            var lista = await _controller.Listar();
-            var dto = lista.Find(x => x.Id == id);
-            if (dto == null) return;
+            try
+            {
+                // CORREÇÃO DO ERRO "SECOND OPERATION":
+                // Carregamos SEQUENCIALMENTE (um termina, depois o outro começa)
+                var listaAlunos = await _studentService.Get<StudentViewModel>();
+                var listaAulas = await _classService.Get<DanceClassViewModel>();
 
-            cmbStudents.SelectedValue = dto.StudentId;
-            cmbClasses.SelectedValue = dto.DanceClassId;
-            dtpDate.Value = dto.Date;
+                if (listaAlunos != null)
+                {
+                    cmbStudents.DataSource = listaAlunos.ToList();
+                    cmbStudents.DisplayMember = "Name";
+                    cmbStudents.ValueMember = "Id";
+                }
+
+                if (listaAulas != null)
+                {
+                    cmbClasses.DataSource = listaAulas.ToList();
+                    cmbClasses.DisplayMember = "Name";
+                    cmbClasses.ValueMember = "Id";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar dados: " + ex.Message);
+            }
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            var dto = new EnrollmentDTO
+            if (cmbStudents.SelectedValue == null || cmbClasses.SelectedValue == null)
+            {
+                MessageBox.Show("Selecione Aluno e Aula.");
+                return;
+            }
+
+            // CORREÇÃO DA VARIÁVEL 'b':
+            // Usei o nome 'btnSender' para não dar conflito
+            if (sender is Button btnSender) btnSender.Enabled = false;
+
+            var dto = new EnrollmentViewModel
             {
                 Id = _editId ?? 0,
                 StudentId = (int)cmbStudents.SelectedValue,
@@ -67,17 +101,25 @@ namespace DanceStudioManager.Views
                 Date = dtpDate.Value
             };
 
-            var result = await _controller.Criar(dto);
-
-            if (!result.ok)
+            try
             {
-                MessageBox.Show(result.msg, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                if (_editId == null)
+                    await _service.Add<EnrollmentViewModel, EnrollmentViewModel, EnrollmentValidator>(dto);
+                else
+                    await _service.Update<EnrollmentViewModel, EnrollmentViewModel, EnrollmentValidator>(dto);
 
-            MessageBox.Show("Matrícula salva com sucesso!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            DialogResult = DialogResult.OK;
-            Close();
+                MessageBox.Show("Salvo com sucesso!");
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+            }
+            finally
+            {
+                if (sender is Button btnFinally) btnFinally.Enabled = true;
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

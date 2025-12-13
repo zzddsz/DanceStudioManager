@@ -1,140 +1,147 @@
-﻿namespace DanceStudioManager
+﻿namespace DanceStudioManager.Forms
 {
-    partial class FormAddEditStudent
+    partial class FormAddEditStudent // O NOME AQUI PRECISA SER IGUAL AO DO ARQUIVO .CS
     {
         private System.ComponentModel.IContainer components = null;
 
-        private Panel panelMain;
-        private Label lblName;
-        private Label lblAge;
-        private Label lblLevel;
+        private System.Windows.Forms.Panel panelMain;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblAge;
+        private System.Windows.Forms.Label lblLevel;
 
-        private TextBox txtName;
-        private TextBox txtAge;
-        private TextBox txtLevel;
+        // Note que os modificadores devem ser pelo menos 'private' ou 'public'
+        public System.Windows.Forms.TextBox txtName;
+        public System.Windows.Forms.TextBox txtAge;
+        public System.Windows.Forms.TextBox txtLevel;
 
-        private Button btnSave;
-        private Button btnCancel;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCancel;
 
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
+            {
                 components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
         private void InitializeComponent()
         {
-            panelMain = new Panel();
-            lblName = new Label();
-            txtName = new TextBox();
-            lblAge = new Label();
-            txtAge = new TextBox();
-            lblLevel = new Label();
-            txtLevel = new TextBox();
-            btnSave = new Button();
-            btnCancel = new Button();
-            panelMain.SuspendLayout();
-            SuspendLayout();
+            this.panelMain = new System.Windows.Forms.Panel();
+            this.lblName = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblAge = new System.Windows.Forms.Label();
+            this.txtAge = new System.Windows.Forms.TextBox();
+            this.lblLevel = new System.Windows.Forms.Label();
+            this.txtLevel = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.panelMain.SuspendLayout();
+            this.SuspendLayout();
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.White;
-            panelMain.Controls.Add(lblName);
-            panelMain.Controls.Add(txtName);
-            panelMain.Controls.Add(lblAge);
-            panelMain.Controls.Add(txtAge);
-            panelMain.Controls.Add(lblLevel);
-            panelMain.Controls.Add(txtLevel);
-            panelMain.Controls.Add(btnSave);
-            panelMain.Controls.Add(btnCancel);
-            panelMain.Location = new Point(20, 20);
-            panelMain.Name = "panelMain";
-            panelMain.Size = new Size(360, 260);
-            panelMain.TabIndex = 0;
+            this.panelMain.BackColor = System.Drawing.Color.White;
+            this.panelMain.Controls.Add(this.lblName);
+            this.panelMain.Controls.Add(this.txtName);
+            this.panelMain.Controls.Add(this.lblAge);
+            this.panelMain.Controls.Add(this.txtAge);
+            this.panelMain.Controls.Add(this.lblLevel);
+            this.panelMain.Controls.Add(this.txtLevel);
+            this.panelMain.Controls.Add(this.btnSave);
+            this.panelMain.Controls.Add(this.btnCancel);
+            this.panelMain.Location = new System.Drawing.Point(20, 20);
+            this.panelMain.Name = "panelMain";
+            this.panelMain.Size = new System.Drawing.Size(360, 260);
+            this.panelMain.TabIndex = 0;
             // 
             // lblName
             // 
-            lblName.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            lblName.ForeColor = SystemColors.Desktop;
-            lblName.Location = new Point(30, 40);
-            lblName.Name = "lblName";
-            lblName.Size = new Size(57, 23);
-            lblName.TabIndex = 0;
-            lblName.Text = "Name:";
+            this.lblName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline);
+            this.lblName.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.lblName.Location = new System.Drawing.Point(30, 40);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(57, 23);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "Name:";
             // 
             // txtName
             // 
-            txtName.Location = new Point(103, 38);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(217, 27);
-            txtName.TabIndex = 1;
+            this.txtName.Location = new System.Drawing.Point(103, 38);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(217, 27);
+            this.txtName.TabIndex = 1;
             // 
             // lblAge
             // 
-            lblAge.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            lblAge.ForeColor = SystemColors.Desktop;
-            lblAge.Location = new Point(30, 90);
-            lblAge.Name = "lblAge";
-            lblAge.Size = new Size(57, 23);
-            lblAge.TabIndex = 2;
-            lblAge.Text = "Age:";
+            this.lblAge.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline);
+            this.lblAge.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.lblAge.Location = new System.Drawing.Point(30, 90);
+            this.lblAge.Name = "lblAge";
+            this.lblAge.Size = new System.Drawing.Size(57, 23);
+            this.lblAge.TabIndex = 2;
+            this.lblAge.Text = "Age:";
             // 
             // txtAge
             // 
-            txtAge.Location = new Point(103, 88);
-            txtAge.Name = "txtAge";
-            txtAge.Size = new Size(217, 27);
-            txtAge.TabIndex = 3;
+            this.txtAge.Location = new System.Drawing.Point(103, 88);
+            this.txtAge.Name = "txtAge";
+            this.txtAge.Size = new System.Drawing.Size(217, 27);
+            this.txtAge.TabIndex = 3;
             // 
             // lblLevel
             // 
-            lblLevel.Font = new Font("Tahoma", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            lblLevel.ForeColor = SystemColors.Desktop;
-            lblLevel.Location = new Point(30, 140);
-            lblLevel.Name = "lblLevel";
-            lblLevel.Size = new Size(57, 23);
-            lblLevel.TabIndex = 4;
-            lblLevel.Text = "Level:";
+            this.lblLevel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline);
+            this.lblLevel.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.lblLevel.Location = new System.Drawing.Point(30, 140);
+            this.lblLevel.Name = "lblLevel";
+            this.lblLevel.Size = new System.Drawing.Size(57, 23);
+            this.lblLevel.TabIndex = 4;
+            this.lblLevel.Text = "Level:";
             // 
             // txtLevel
             // 
-            txtLevel.Location = new Point(103, 138);
-            txtLevel.Name = "txtLevel";
-            txtLevel.Size = new Size(217, 27);
-            txtLevel.TabIndex = 5;
+            this.txtLevel.Location = new System.Drawing.Point(103, 138);
+            this.txtLevel.Name = "txtLevel";
+            this.txtLevel.Size = new System.Drawing.Size(217, 27);
+            this.txtLevel.TabIndex = 5;
             // 
             // btnSave
             // 
-            btnSave.BackColor = Color.RosyBrown;
-            btnSave.Font = new Font("Tahoma", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSave.Location = new Point(120, 200);
-            btnSave.Name = "btnSave";
-            btnSave.Size = new Size(75, 32);
-            btnSave.TabIndex = 6;
-            btnSave.Text = "Save";
-            btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnSave.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSave.Location = new System.Drawing.Point(120, 200);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 32);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
             // 
             // btnCancel
             // 
-            btnCancel.BackColor = Color.RosyBrown;
-            btnCancel.Font = new Font("Tahoma", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancel.Location = new Point(230, 200);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(75, 32);
-            btnCancel.TabIndex = 7;
-            btnCancel.Text = "Cancel";
-            btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnCancel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.btnCancel.Location = new System.Drawing.Point(230, 200);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 32);
+            this.btnCancel.TabIndex = 7;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = false;
             // 
-            // FormAddEditAluno
+            // FormAddEditStudent
             // 
-            ClientSize = new Size(400, 300);
-            Controls.Add(panelMain);
-            Name = "FormAddEditAluno";
-            Text = "Add / Edit Student";
-            panelMain.ResumeLayout(false);
-            panelMain.PerformLayout();
-            ResumeLayout(false);
+            this.ClientSize = new System.Drawing.Size(400, 300);
+            this.Controls.Add(this.panelMain);
+            this.Name = "FormAddEditStudent"; // AQUI ESTAVA O ERRO (Antes era FormAddEditAluno)
+            this.Text = "Add / Edit Student";
+            this.panelMain.ResumeLayout(false);
+            this.panelMain.PerformLayout();
+            this.ResumeLayout(false);
         }
+
+        #endregion
     }
 }

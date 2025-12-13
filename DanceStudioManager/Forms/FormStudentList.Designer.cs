@@ -39,6 +39,7 @@
             // dgv
             // 
             dgv.AllowUserToAddRows = false;
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.BackgroundColor = Color.White;
             dgv.ColumnHeadersHeight = 29;
             dgv.Location = new Point(20, 150);
@@ -51,6 +52,7 @@
             // 
             // btnAdd
             // 
+            btnAdd.Anchor = AnchorStyles.Top;
             btnAdd.BackColor = Color.RosyBrown;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Tahoma", 9F, FontStyle.Bold);
@@ -61,10 +63,11 @@
             btnAdd.TabIndex = 2;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = false;
-            btnAdd.Click += this.btnAdd_Click;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnEdit
             // 
+            btnEdit.Anchor = AnchorStyles.Top;
             btnEdit.BackColor = Color.RosyBrown;
             btnEdit.FlatStyle = FlatStyle.Flat;
             btnEdit.Font = new Font("Tahoma", 9F, FontStyle.Bold);
@@ -75,10 +78,11 @@
             btnEdit.TabIndex = 3;
             btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = false;
-            btnEdit.Click += this.btnEdit_Click;
+            btnEdit.Click += btnEdit_Click;
             // 
             // btnDelete
             // 
+            btnDelete.Anchor = AnchorStyles.Top;
             btnDelete.BackColor = Color.RosyBrown;
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Tahoma", 9F, FontStyle.Bold);
@@ -89,10 +93,11 @@
             btnDelete.TabIndex = 4;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
-            btnDelete.Click += this.btnDelete_Click;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnRefresh
             // 
+            btnRefresh.Anchor = AnchorStyles.Top;
             btnRefresh.BackColor = Color.RosyBrown;
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.Font = new Font("Tahoma", 9F, FontStyle.Bold);
@@ -103,7 +108,7 @@
             btnRefresh.TabIndex = 5;
             btnRefresh.Text = "Refresh";
             btnRefresh.UseVisualStyleBackColor = false;
-            btnRefresh.Click += btnRefresh_Click_1;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // lblTitle
             // 

@@ -3,7 +3,6 @@
     partial class FormTeacherList
     {
         private System.ComponentModel.IContainer components = null;
-
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEdit;
@@ -14,127 +13,129 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
         private void InitializeComponent()
         {
-            dgv = new DataGridView();
-            btnAdd = new Button();
-            btnEdit = new Button();
-            btnDelete = new Button();
-            btnRefresh = new Button();
-            lblTitle = new Label();
-            topPanel = new Panel();
-            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
-            topPanel.SuspendLayout();
-            SuspendLayout();
-            // 
+            this.dgv = new System.Windows.Forms.DataGridView();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.topPanel = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            this.topPanel.SuspendLayout();
+            this.SuspendLayout();
+
             // dgv
-            // 
-            dgv.AllowUserToAddRows = false;
-            dgv.BackgroundColor = Color.White;
-            dgv.ColumnHeadersHeight = 29;
-            dgv.Location = new Point(20, 150);
-            dgv.Name = "dgv";
-            dgv.ReadOnly = true;
-            dgv.RowHeadersWidth = 51;
-            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv.Size = new Size(820, 360);
-            dgv.TabIndex = 1;
-            // 
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv.BackgroundColor = System.Drawing.Color.White;
+            this.dgv.ColumnHeadersHeight = 29;
+            this.dgv.Location = new System.Drawing.Point(20, 150);
+            this.dgv.Name = "dgv";
+            this.dgv.ReadOnly = true;
+            this.dgv.RowHeadersWidth = 51;
+            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv.Size = new System.Drawing.Size(820, 360);
+            this.dgv.TabIndex = 1;
+
             // btnAdd
-            // 
-            btnAdd.BackColor = Color.RosyBrown;
-            btnAdd.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAdd.ForeColor = SystemColors.ButtonFace;
-            btnAdd.Location = new Point(63, 86);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(170, 45);
-            btnAdd.TabIndex = 2;
-            btnAdd.Text = "Add";
-            btnAdd.UseVisualStyleBackColor = false;
-            // 
+            this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnAdd.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAdd.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnAdd.Location = new System.Drawing.Point(63, 86);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(170, 45);
+            this.btnAdd.TabIndex = 2;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click); // Conecta aqui
+
             // btnEdit
-            // 
-            btnEdit.BackColor = Color.RosyBrown;
-            btnEdit.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEdit.ForeColor = SystemColors.ButtonFace;
-            btnEdit.Location = new Point(253, 86);
-            btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(170, 45);
-            btnEdit.TabIndex = 3;
-            btnEdit.Text = "Edit";
-            btnEdit.UseVisualStyleBackColor = false;
-            // 
+            this.btnEdit.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnEdit.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEdit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnEdit.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnEdit.Location = new System.Drawing.Point(253, 86);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(170, 45);
+            this.btnEdit.TabIndex = 3;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click); // Conecta aqui
+
             // btnDelete
-            // 
-            btnDelete.BackColor = Color.RosyBrown;
-            btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDelete.ForeColor = SystemColors.ButtonFace;
-            btnDelete.Location = new Point(443, 86);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(170, 45);
-            btnDelete.TabIndex = 4;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = false;
-            // 
+            this.btnDelete.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnDelete.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDelete.Location = new System.Drawing.Point(443, 86);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(170, 45);
+            this.btnDelete.TabIndex = 4;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click); // Conecta aqui
+
             // btnRefresh
-            // 
-            btnRefresh.BackColor = Color.RosyBrown;
-            btnRefresh.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            btnRefresh.ForeColor = SystemColors.ButtonFace;
-            btnRefresh.Location = new Point(633, 86);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(170, 45);
-            btnRefresh.TabIndex = 5;
-            btnRefresh.Text = "Refresh";
-            btnRefresh.UseVisualStyleBackColor = false;
-            // 
-            // lblTitle
-            // 
-            lblTitle.Dock = DockStyle.Fill;
-            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(0, 0);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(860, 70);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Teachers • Control";
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            // 
+            this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnRefresh.BackColor = System.Drawing.Color.RosyBrown;
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnRefresh.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnRefresh.Location = new System.Drawing.Point(633, 86);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(170, 45);
+            this.btnRefresh.TabIndex = 5;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click); // Conecta aqui
+
             // topPanel
-            // 
-            topPanel.BackColor = Color.RosyBrown;
-            topPanel.Controls.Add(lblTitle);
-            topPanel.Dock = DockStyle.Top;
-            topPanel.Location = new Point(0, 0);
-            topPanel.Name = "topPanel";
-            topPanel.Size = new Size(860, 70);
-            topPanel.TabIndex = 0;
-            // 
+            this.topPanel.BackColor = System.Drawing.Color.RosyBrown;
+            this.topPanel.Controls.Add(this.lblTitle);
+            this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.topPanel.Location = new System.Drawing.Point(0, 0);
+            this.topPanel.Name = "topPanel";
+            this.topPanel.Size = new System.Drawing.Size(860, 70);
+            this.topPanel.TabIndex = 0;
+
+            // lblTitle
+            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(0, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(860, 70);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Teachers • Control";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
             // FormTeacherList
-            // 
-            BackColor = Color.MistyRose;
-            ClientSize = new Size(860, 530);
-            Controls.Add(topPanel);
-            Controls.Add(dgv);
-            Controls.Add(btnAdd);
-            Controls.Add(btnEdit);
-            Controls.Add(btnDelete);
-            Controls.Add(btnRefresh);
-            Name = "FormTeacherList";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Teachers";
-            Load += FormTeacherList_Load;
-            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
-            topPanel.ResumeLayout(false);
-            ResumeLayout(false);
+            this.BackColor = System.Drawing.Color.MistyRose;
+            this.ClientSize = new System.Drawing.Size(860, 530);
+            this.Controls.Add(this.topPanel);
+            this.Controls.Add(this.dgv);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnEdit);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnRefresh);
+            this.Name = "FormTeacherList";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Teachers";
+            this.Load += new System.EventHandler(this.FormTeacherList_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            this.topPanel.ResumeLayout(false);
+            this.ResumeLayout(false);
         }
         #endregion
     }

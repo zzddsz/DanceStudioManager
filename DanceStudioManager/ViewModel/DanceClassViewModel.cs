@@ -1,8 +1,7 @@
-﻿using System;
-
-namespace DanceStudio.Service.DTOs
+﻿
+namespace DanceStudioManager.ViewModel
 {
-    public class DanceClassDTO
+    public class DanceClassViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;      

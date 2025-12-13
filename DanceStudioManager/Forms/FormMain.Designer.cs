@@ -68,7 +68,7 @@
             btnEnrollments.Name = "btnEnrollments";
             btnEnrollments.Size = new Size(200, 55);
             btnEnrollments.TabIndex = 0;
-            btnEnrollments.Text = "Enrollments";
+            btnEnrollments.Text = "Scheduling";
             btnEnrollments.UseVisualStyleBackColor = false;
             btnEnrollments.Click += BtnEnrollments_Click;
             // 
@@ -138,14 +138,15 @@
             // 
             // lblTitle
             // 
-            lblTitle.AutoSize = true;
+            lblTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblTitle.Font = new Font("Elephant", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(185, 23);
+            lblTitle.Location = new Point(0, 25);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(429, 43);
+            lblTitle.Size = new Size(767, 62);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Dance Studio Manager";
+            lblTitle.TextAlign = ContentAlignment.TopCenter;
             // 
             // panelContent
             // 
@@ -174,7 +175,6 @@
             Load += FormMain_Load;
             panelSidebar.ResumeLayout(false);
             panelHeader.ResumeLayout(false);
-            panelHeader.PerformLayout();
             ResumeLayout(false);
 
         }

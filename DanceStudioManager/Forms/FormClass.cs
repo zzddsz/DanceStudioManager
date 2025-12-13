@@ -1,24 +1,25 @@
-using DanceStudioManager.Controllers;
-using DanceStudio.Service.DTOs;
+using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel; // Namespace onde está DanceClassViewModel
+using System;
+using System.Drawing;
+using System.Linq; // NECESSÁRIO para o .ToList()
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
-using DanceStudioManager.Forms;
-namespace DanceStudioManager
+
+namespace DanceStudioManager.Forms
 {
     public partial class FormClass : Form
     {
-        private readonly DanceClassController _controller;
+        private readonly DanceClassService _service;
 
-        public FormClass(DanceClassController controller)
+        public FormClass(DanceClassService service)
         {
-            _controller = controller;
+            _service = service;
             InitializeComponent();
-
-            this.BackColor = Color.FromArgb(255, 245, 250);
+            ApplyStyle();
         }
 
-        private async void Form1_Load(object sender, System.EventArgs e)
+        private async void FormClass_Load(object sender, EventArgs e)
         {
             await RefreshGrid();
         }
@@ -27,32 +28,63 @@ namespace DanceStudioManager
         {
             try
             {
-                var list = await _controller.Listar();
-                dgv.DataSource = list;
+                if (dgv != null)
+                {
+                    // MÉTODO GENÉRICO: Get<T>()
+                    var list = await _service.Get<DanceClassViewModel>();
 
-                dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgv.RowHeadersVisible = false;
-                dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dgv.DataSource = null;
+                    dgv.DataSource = list.ToList(); // Converter para Lista ajuda o Grid
 
-                if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
+                    ConfigurarGrid();
+                }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Erro ao carregar lista: " + ex.Message);
             }
         }
 
-        private void BtnAdd_Click(object sender, System.EventArgs e)
+        private void ConfigurarGrid()
         {
-            var f = new FormAddEditClass(_controller);
+            if (dgv == null) return;
 
-            if (f.ShowDialog() == DialogResult.OK)
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.RowHeadersVisible = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.BackgroundColor = Color.White;
+
+            if (dgv.Columns.Count > 0)
             {
-                _ = RefreshGrid();
+                if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
+
+                if (dgv.Columns["Name"] != null) dgv.Columns["Name"].HeaderText = "Name";
+                if (dgv.Columns["Teacher"] != null) dgv.Columns["Teacher"].HeaderText = "Teacher";
+                if (dgv.Columns["DayOfWeek"] != null) dgv.Columns["DayOfWeek"].HeaderText = "DayOfWeek";
+                if (dgv.Columns["Time"] != null) dgv.Columns["Time"].HeaderText = "Time";
+                if (dgv.Columns["MaxStudents"] != null) dgv.Columns["MaxStudents"].HeaderText = "Vacancies";
             }
         }
 
-        private async void BtnEdit_Click(object sender, System.EventArgs e)
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Instancia o formulário de cadastro (que está no mesmo namespace .Forms)
+                var f = new FormAddEditClass(_service);
+
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    _ = RefreshGrid();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao abrir formulário: " + ex.Message);
+            }
+        }
+
+        private async void BtnEdit_Click(object sender, EventArgs e)
         {
             if (dgv.SelectedRows.Count == 0)
             {
@@ -60,67 +92,72 @@ namespace DanceStudioManager
                 return;
             }
 
-            if (dgv.SelectedRows[0].Cells["Id"].Value == null) return;
-
-            int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-
             try
             {
-                DanceClassDTO dto = await _controller.Buscar(id);
+                int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
 
-                if (dto == null)
+                // MÉTODO GENÉRICO: GetById<T>(id)
+                var viewModel = await _service.GetById<DanceClassViewModel>(id);
+
+                if (viewModel != null)
                 {
-                    MessageBox.Show("Aula não encontrada no banco de dados.");
-                    return;
-                }
+                    var f = new FormAddEditClass(_service);
+                    f.LoadClass(viewModel);
 
-                var f = new FormAddEditClass(_controller);
-
-                f.LoadClass(dto);
-
-                if (f.ShowDialog() == DialogResult.OK)
-                {
-                    await RefreshGrid();
-                }
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Erro ao buscar dados para edição: " + ex.Message);
-            }
-        }
-
-        private async void BtnDelete_Click(object sender, System.EventArgs e)
-        {
-            if (dgv.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Selecione uma aula para excluir.");
-                return;
-            }
-
-            if (MessageBox.Show("Tem certeza que deseja excluir esta aula?", "Excluir", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                try
-                {
-                    int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-                    var resultado = await _controller.Remover(id);
-
-                    MessageBox.Show(resultado.msg);
-
-                    if (resultado.ok)
+                    if (f.ShowDialog() == DialogResult.OK)
                     {
                         await RefreshGrid();
                     }
                 }
-                catch (System.Exception ex)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao editar: " + ex.Message);
+            }
+        }
+
+        private async void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count == 0) return;
+
+            if (MessageBox.Show("Excluir aula?", "Confirmação", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
                 {
-                    MessageBox.Show("Erro ao excluir: " + ex.Message);
+                    int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
+
+                    // MÉTODO GENÉRICO: Delete(id)
+                    // Ele é void Task e lança exceção se falhar
+                    await _service.Delete(id);
+
+                    await RefreshGrid();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro: " + ex.Message);
                 }
             }
         }
 
-        private async void BtnRefresh_Click(object sender, System.EventArgs e)
+        private async void BtnRefresh_Click(object sender, EventArgs e)
         {
             await RefreshGrid();
+        }
+
+        private void ApplyStyle()
+        {
+            this.BackColor = Color.FromArgb(255, 245, 250);
+
+            Button[] botoes = { btnAdd, btnEdit, btnDelete, btnRefresh };
+            foreach (var btn in botoes)
+            {
+                if (btn != null)
+                {
+                    btn.BackColor = Color.RosyBrown;
+                    btn.ForeColor = Color.White;
+                    btn.FlatStyle = FlatStyle.Flat;
+                }
+            }
         }
     }
 }

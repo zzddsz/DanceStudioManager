@@ -1,47 +1,78 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DanceStudio.Domain.Base;
+using DanceStudio.Repository.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using DanceStudio.Repository.Data;
 
 namespace DanceStudio.Repository.Repositories
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity>
+        where TEntity : BaseEntity<int>
     {
         protected readonly AppDbContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly DbSet<TEntity> _dataset;
 
         public BaseRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
+            _dataset = _context.Set<TEntity>();
         }
 
-        public async Task<List<T>> GetAllAsync()
+        // ================= ADD =================
+        public async Task InsertAsync(TEntity entity)
         {
-            return await _dbSet.ToListAsync();
-        }
-
-        public async Task<T?> GetByIdAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-
-        public async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
+            await _dataset.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(T entity)
+        // ================= UPDATE =================
+        public async Task UpdateAsync(TEntity entity)
         {
-            _dbSet.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        // ================= DELETE (CORRIGIDO) =================
+        public async Task DeleteAsync(int id)
         {
-            _dbSet.Remove(entity);
+            var entity = Activator.CreateInstance<TEntity>();
+            entity.Id = id;
+
+            _context.Entry(entity).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
+        }
+
+        // ================= GET ALL =================
+        public async Task<IList<TEntity>> SelectAsync(IList<string>? includes = null)
+        {
+            IQueryable<TEntity> query = _dataset;
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+            return await query
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        // ================= GET BY ID =================
+        public async Task<TEntity> SelectAsync(int id, IList<string>? includes = null)
+        {
+            IQueryable<TEntity> query = _dataset;
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+            return await query
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

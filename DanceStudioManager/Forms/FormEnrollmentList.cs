@@ -1,9 +1,10 @@
-﻿using DanceStudio.Service.DTOs;
-using DanceStudioManager.Controllers;
+﻿using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel;
 using DanceStudioManager.Views;
-using ReaLTaiizor.Forms;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,47 +12,54 @@ namespace DanceStudioManager
 {
     public partial class FormEnrollmentList : Form
     {
-        private readonly EnrollmentController _controller;
-
-        private readonly StudentController _studentController;
-        private readonly DanceClassController _classController;
+        private readonly EnrollmentService _service;
+        private readonly StudentService _studentService;
+        private readonly DanceClassService _classService;
 
         private readonly Color corPainel = Color.FromArgb(115, 55, 55);
         private readonly Color corBotao = Color.FromArgb(178, 122, 122);
 
         public FormEnrollmentList(
-            EnrollmentController controller,
-            StudentController studentController,
-            DanceClassController classController)
+            EnrollmentService service,
+            StudentService studentService,
+            DanceClassService classService)
         {
-            _controller = controller;
-            _studentController = studentController;
-            _classController = classController;     
+            _service = service;
+            _studentService = studentService;
+            _classService = classService;
 
             InitializeComponent();
             ApplyTheme();
+
+            // --- CORREÇÃO DE SEGURANÇA (EVITA O ERRO DE SECOND OPERATION) ---
+            // Removemos qualquer conexão anterior para garantir que só exista UMA.
+            // Isso impede que o Load rode 2x e trave o banco.
+
+            if (btnAdd != null) { btnAdd.Click -= BtnAdd_Click; btnAdd.Click += BtnAdd_Click; }
+            if (btnDelete != null) { btnDelete.Click -= BtnDelete_Click; btnDelete.Click += BtnDelete_Click; }
+
+            this.Load -= FormEnrollmentList_Load;
+            this.Load += FormEnrollmentList_Load;
         }
 
         private void ApplyTheme()
         {
             this.BackColor = Color.FromArgb(255, 245, 245);
             this.Font = new Font("Segoe UI", 10);
-            panelTop.BackColor = corPainel;
+            if (panelTop != null) panelTop.BackColor = corPainel;
             StyleButton(btnAdd);
             StyleButton(btnDelete);
         }
 
         private void StyleButton(Button btn)
         {
+            if (btn == null) return;
             btn.BackColor = corBotao;
             btn.ForeColor = Color.White;
             btn.FlatStyle = FlatStyle.Flat;
             btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             btn.FlatAppearance.BorderSize = 1;
             btn.FlatAppearance.BorderColor = Color.White;
-            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(198, 142, 142);
-            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(158, 102, 102);
-            btn.UseVisualStyleBackColor = false;
         }
 
         private async void FormEnrollmentList_Load(object sender, EventArgs e)
@@ -61,63 +69,82 @@ namespace DanceStudioManager
 
         private async Task CarregarLista()
         {
-            var lista = await _controller.Listar();
-            dgvEnrollments.DataSource = lista;
+            try
+            {
+                var includes = new List<string> { "Student", "DanceClass" };
+                var lista = await _service.Get<EnrollmentViewModel>(includes);
+
+                if (dgvEnrollments != null)
+                {
+                    dgvEnrollments.DataSource = null;
+                    dgvEnrollments.DataSource = lista.ToList();
+                    ConfigurarGrid();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar lista: " + ex.Message);
+            }
+        }
+
+        private void ConfigurarGrid()
+        {
+            if (dgvEnrollments == null) return;
 
             dgvEnrollments.BackgroundColor = Color.White;
             dgvEnrollments.BorderStyle = BorderStyle.None;
+            dgvEnrollments.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvEnrollments.RowHeadersVisible = false;
+            dgvEnrollments.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             if (dgvEnrollments.Columns.Count > 0)
             {
-                if (dgvEnrollments.Columns.Contains("Id")) dgvEnrollments.Columns["Id"].Visible = false;
-                if (dgvEnrollments.Columns.Contains("StudentId")) dgvEnrollments.Columns["StudentId"].Visible = false;
-                if (dgvEnrollments.Columns.Contains("DanceClassId")) dgvEnrollments.Columns["DanceClassId"].Visible = false;
+                if (dgvEnrollments.Columns["Id"] != null) dgvEnrollments.Columns["Id"].Visible = false;
+                if (dgvEnrollments.Columns["StudentId"] != null) dgvEnrollments.Columns["StudentId"].Visible = false;
+                if (dgvEnrollments.Columns["DanceClassId"] != null) dgvEnrollments.Columns["DanceClassId"].Visible = false;
 
-                if (dgvEnrollments.Columns.Contains("StudentName")) dgvEnrollments.Columns["StudentName"].HeaderText = "Student";
-                if (dgvEnrollments.Columns.Contains("DanceClassName")) dgvEnrollments.Columns["DanceClassName"].HeaderText = "Class";
-                if (dgvEnrollments.Columns.Contains("Date")) dgvEnrollments.Columns["Date"].HeaderText = "Date";
-
-                dgvEnrollments.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                if (dgvEnrollments.Columns["StudentName"] != null) dgvEnrollments.Columns["StudentName"].HeaderText = "Student";
+                if (dgvEnrollments.Columns["DanceClassName"] != null) dgvEnrollments.Columns["DanceClassName"].HeaderText = "Class";
+                if (dgvEnrollments.Columns["Date"] != null) dgvEnrollments.Columns["Date"].HeaderText = "Date";
             }
         }
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
-            var form = new FormAddEditEnrollment(_controller, _studentController, _classController);
-
-            if (form.ShowDialog() == DialogResult.OK)
+            try
             {
-                await CarregarLista();
+                var form = new FormAddEditEnrollment(_service, _studentService, _classService);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    await CarregarLista();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao abrir formulário: " + ex.Message);
             }
         }
 
         private async void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvEnrollments.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Selecione uma matrícula para remover.");
-                return;
-            }
+            if (dgvEnrollments.SelectedRows.Count == 0) return;
 
             var cellValue = dgvEnrollments.SelectedRows[0].Cells["Id"].Value;
             if (cellValue == null) return;
-
             int id = (int)cellValue;
 
-            var confirm = MessageBox.Show(
-                "Deseja remover esta matrícula?",
-                "Confirmação",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
-            );
-
-            if (confirm == DialogResult.Yes)
+            if (MessageBox.Show("Remove enrollment?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                var result = await _controller.Remover(id);
-                MessageBox.Show(result.msg);
-
-                if (result.ok)
+                try
+                {
+                    await _service.Delete(id);
+                    MessageBox.Show("Removed successfully!");
                     await CarregarLista();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error removing: " + ex.Message);
+                }
             }
         }
     }

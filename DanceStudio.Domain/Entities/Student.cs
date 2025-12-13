@@ -1,8 +1,9 @@
-﻿namespace DanceStudio.Service.DTOs
+﻿using DanceStudio.Domain.Base;
+
+namespace DanceStudio.Domain.Entities
 {
-    public class StudentDTO
+    public class Student : BaseEntity<int>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public string Level { get; set; }

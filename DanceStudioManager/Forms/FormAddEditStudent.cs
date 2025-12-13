@@ -1,33 +1,33 @@
-﻿using DanceStudioManager.Controllers;
-using DanceStudio.Service.DTOs;
+﻿using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel;
+using DanceStudio.Service.Validators;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DanceStudioManager // Namespace deve ser igual ao do Designer (sem .Forms)
+namespace DanceStudioManager.Forms
 {
     public partial class FormAddEditStudent : Form
     {
-        private readonly StudentController _controller;
-        private StudentDTO _editing;
+        private readonly StudentService _service;
+        private StudentViewModel _editing;
 
-        public FormAddEditStudent(StudentController controller)
+        public FormAddEditStudent(StudentService service)
         {
-            _controller = controller;
+            _service = service;
             InitializeComponent();
             ApplyTheme();
 
-            // Garante que os eventos de clique funcionem
-            btnSave.Click += BtnSave_Click;
-            btnCancel.Click += BtnCancel_Click;
+            if (btnSave != null) btnSave.Click += BtnSave_Click;
+            if (btnCancel != null) btnCancel.Click += BtnCancel_Click;
         }
 
-        public void LoadStudent(StudentDTO dto)
+        public void LoadStudent(StudentViewModel viewModel)
         {
-            _editing = dto;
-            txtName.Text = dto.Name;
-            txtAge.Text = dto.Age.ToString();
-            txtLevel.Text = dto.Level;
+            _editing = viewModel;
+            txtName.Text = viewModel.Name;
+            txtAge.Text = viewModel.Age.ToString();
+            txtLevel.Text = viewModel.Level;
         }
 
         private async void BtnSave_Click(object sender, EventArgs e)
@@ -38,33 +38,40 @@ namespace DanceStudioManager // Namespace deve ser igual ao do Designer (sem .Fo
                 return;
             }
 
-            // Desabilita botão
             if (sender is Button btnSender) btnSender.Enabled = false;
 
             try
             {
-                // Converte a idade
                 int.TryParse(txtAge.Text, out int idade);
 
-                var dto = new StudentDTO
+                var viewModel = new StudentViewModel
                 {
                     Id = _editing != null ? _editing.Id : 0,
                     Name = txtName.Text,
-                    Age = idade,           // Passa a idade capturada
-                    Level = txtLevel.Text  // Passa o nível capturado
+                    Age = idade,
+                    Level = txtLevel.Text
                 };
 
                 if (_editing == null)
-                    await _controller.Add(dto);
+                {
+                    // Add<Input, Output, Validator>
+                    await _service.Add<StudentViewModel, StudentViewModel, StudentValidator>(viewModel);
+                }
                 else
-                    await _controller.Atualizar(dto.Id, dto);
+                {
+                    // Update<Input, Output, Validator>
+                    await _service.Update<StudentViewModel, StudentViewModel, StudentValidator>(viewModel);
+                }
 
                 DialogResult = DialogResult.OK;
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar: " + ex.Message);
+                MessageBox.Show("Erro ao salvar: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
                 if (sender is Button btnError) btnError.Enabled = true;
             }
         }
@@ -78,7 +85,7 @@ namespace DanceStudioManager // Namespace deve ser igual ao do Designer (sem .Fo
         private void ApplyTheme()
         {
             this.BackColor = Color.FromArgb(255, 235, 245);
-            if (panelMain != null) panelMain.BackColor = Color.White;
+            if (Controls.ContainsKey("panelMain")) Controls["panelMain"].BackColor = Color.White;
             StyleButton(btnSave);
             StyleButton(btnCancel);
         }

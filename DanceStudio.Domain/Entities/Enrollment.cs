@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-namespace DanceStudio.Domain.Models
-{
-    public class Enrollment
-    {
-        public int Id { get; set; }
+﻿using DanceStudio.Domain.Base;
+using System;
 
+namespace DanceStudio.Domain.Entities
+{
+    public class Enrollment : BaseEntity<int>
+    {
         public int StudentId { get; set; }
         public Student Student { get; set; }
 

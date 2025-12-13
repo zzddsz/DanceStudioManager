@@ -1,7 +1,8 @@
-﻿using DanceStudioManager.Controllers;
-using DanceStudio.Service.DTOs;
+﻿using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -9,35 +10,26 @@ namespace DanceStudioManager.Forms
 {
     public partial class FormStudentList : Form
     {
-        private readonly StudentController _controller;
+        private readonly StudentService _service;
 
-        public FormStudentList(StudentController controller)
+        public FormStudentList(StudentService service)
         {
-            _controller = controller;
+            _service = service;
             InitializeComponent();
         }
 
         private async void FormStudentList_Load(object sender, EventArgs e)
         {
-            btnAdd.Click += btnAdd_Click;
-            btnEdit.Click += btnEdit_Click;
-            btnDelete.Click += btnDelete_Click;
-            btnRefresh.Click += btnRefresh_Click;
-
             ApplyStyle();
             await RefreshGrid();
         }
 
         private void ApplyStyle()
         {
-            Button[] b = { btnAdd, btnEdit, btnDelete, btnRefresh };
-            foreach (var btn in b)
-            {
-                btn.BackColor = Color.RosyBrown;
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.Font = new Font("Tahoma", 9F, FontStyle.Bold);
-                btn.ForeColor = Color.White;
-            }
+            if (btnAdd != null) EstilizarBotao(btnAdd);
+            if (btnEdit != null) EstilizarBotao(btnEdit);
+            if (btnDelete != null) EstilizarBotao(btnDelete);
+            if (btnRefresh != null) EstilizarBotao(btnRefresh);
 
             if (dgv != null)
             {
@@ -48,14 +40,24 @@ namespace DanceStudioManager.Forms
             }
         }
 
+        private void EstilizarBotao(Button btn)
+        {
+            btn.BackColor = Color.RosyBrown;
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.Font = new Font("Tahoma", 9F, FontStyle.Bold);
+            btn.ForeColor = Color.White;
+        }
+
         private async Task RefreshGrid()
         {
             try
             {
                 if (dgv != null)
                 {
-                    var list = await _controller.Listar();
-                    dgv.DataSource = list;
+                    var list = await _service.Get<DanceStudioManager.ViewModel.StudentViewModel>();
+
+                    dgv.DataSource = null;
+                    dgv.DataSource = list.ToList();
 
                     if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
                 }
@@ -70,7 +72,7 @@ namespace DanceStudioManager.Forms
         {
             try
             {
-                var f = new DanceStudioManager.FormAddEditStudent(_controller);
+                var f = new FormAddEditStudent(_service);
 
                 if (f.ShowDialog() == DialogResult.OK)
                 {
@@ -79,15 +81,7 @@ namespace DanceStudioManager.Forms
             }
             catch (Exception ex)
             {
-                try
-                {
-                    var f = new DanceStudioManager.FormAddEditStudent(_controller);
-                    if (f.ShowDialog() == DialogResult.OK) _ = RefreshGrid();
-                }
-                catch
-                {
-                    MessageBox.Show("Erro ao abrir formulário: " + ex.Message);
-                }
+                MessageBox.Show("Erro ao abrir formulário: " + ex.Message);
             }
         }
 
@@ -102,16 +96,17 @@ namespace DanceStudioManager.Forms
             try
             {
                 int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-                var dto = await _controller.Buscar(id);
 
-                if (dto == null)
+                var viewModel = await _service.GetById<DanceStudioManager.ViewModel.StudentViewModel>(id);
+
+                if (viewModel == null)
                 {
                     MessageBox.Show("Aluno não encontrado.");
                     return;
                 }
 
-                var f = new DanceStudioManager.FormAddEditStudent(_controller);
-                f.LoadStudent(dto);
+                var f = new FormAddEditStudent(_service);
+                f.LoadStudent(viewModel);
 
                 if (f.ShowDialog() == DialogResult.OK)
                 {
@@ -133,7 +128,9 @@ namespace DanceStudioManager.Forms
                 try
                 {
                     int id = (int)dgv.SelectedRows[0].Cells["Id"].Value;
-                    await _controller.Remover(id);
+
+                    await _service.Delete(id);
+
                     await RefreshGrid();
                 }
                 catch (Exception ex)
@@ -146,11 +143,6 @@ namespace DanceStudioManager.Forms
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             await RefreshGrid();
-        }
-
-        private void btnRefresh_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

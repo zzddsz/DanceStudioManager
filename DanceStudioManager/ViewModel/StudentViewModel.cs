@@ -1,11 +1,10 @@
-﻿namespace DanceStudio.Domain.Models
+﻿namespace DanceStudioManager.ViewModel
 {
-    public class Student
+    public class StudentViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public string Level { get; set; }
     }
-
-    }
+}

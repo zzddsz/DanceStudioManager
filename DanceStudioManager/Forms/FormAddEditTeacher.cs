@@ -1,89 +1,98 @@
-﻿using DanceStudio.Service.DTOs;
-using DanceStudioManager.Controllers;
-using ReaLTaiizor.Forms;
+﻿using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel;
+using DanceStudio.Service.Validators;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DanceStudioManager
+namespace DanceStudioManager.Forms
 {
     public partial class FormAddEditTeacher : Form
     {
-        private readonly TeacherController _controller;
+        private readonly TeacherService _service;
         private int? _idEdicao = null;
 
-        public FormAddEditTeacher(TeacherController controller)
+        public FormAddEditTeacher(TeacherService service)
         {
-            _controller = controller;
+            _service = service;
             InitializeComponent();
             ApplyTheme();
+
+            btnSave.Click += BtnSave_Click;
+            btnCancel.Click += BtnCancel_Click;
         }
 
-        public void LoadForEdit(TeacherDTO dto)
+        public void LoadForEdit(TeacherViewModel dto)
         {
             _idEdicao = dto.Id;
             txtName.Text = dto.Name;
-            txtSpeciality.Text = dto.Speciality;
-        }
-
-        private void ApplyTheme()
-        {
-            this.BackColor = Color.FromArgb(255, 235, 245);
-            this.Font = new Font("Segoe UI", 11);
-
-            panelMain.BackColor = Color.White;
-            panelMain.BorderStyle = BorderStyle.FixedSingle;
-
-            StyleButton(btnSave);
-            StyleButton(btnCancel);
-        }
-
-        private void StyleButton(Button btn)
-        {
-            btn.BackColor = Color.FromArgb(255, 170, 200);
-            btn.ForeColor = Color.White;
-            btn.FlatStyle = FlatStyle.Flat;
-            btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-
-            btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 130, 180);
-            btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 110, 160);
+            txtSpeciality.Text = dto.Specialty;
         }
 
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            TeacherDTO dto = new TeacherDTO
+            if (string.IsNullOrWhiteSpace(txtName.Text))
             {
+                MessageBox.Show("Nome é obrigatório.");
+                return;
+            }
+
+            var dto = new TeacherViewModel
+            {
+                Id = _idEdicao ?? 0,
                 Name = txtName.Text.Trim(),
-                Speciality = txtSpeciality.Text.Trim()
+                Specialty = txtSpeciality.Text.Trim()
             };
 
-            bool ok;
-            string msg;
-
-            if (_idEdicao == null)
+            try
             {
-                (ok, msg) = await _controller.Criar(dto);
-            }
-            else
-            {
-                dto.Id = _idEdicao.Value;
-                (ok, msg) = await _controller.Atualizar(_idEdicao.Value, dto);
-            }
+                if (_idEdicao == null)
+                {
+                    await _service.Add<TeacherViewModel, TeacherViewModel, TeacherValidator>(dto);
+                }
+                else
+                {
+                    await _service.Update<TeacherViewModel, TeacherViewModel, TeacherValidator>(dto);
+                }
 
-            MessageBox.Show(msg);
-
-            if (ok)
-            {
-                this.DialogResult = DialogResult.OK;
+                DialogResult = DialogResult.OK;
                 Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Erro ao salvar: " + ex.Message,
+                    "Validação",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void ApplyTheme()
+        {
+            BackColor = Color.FromArgb(255, 235, 245);
+
+            if (Controls.ContainsKey("panelMain"))
+                Controls["panelMain"].BackColor = Color.White;
+
+            StyleButton(btnSave);
+            StyleButton(btnCancel);
+        }
+
+        private static void StyleButton(Button btn)
+        {
+            if (btn == null) return;
+
+            btn.BackColor = Color.RosyBrown;
+            btn.ForeColor = Color.White;
+            btn.FlatStyle = FlatStyle.Flat;
         }
     }
 }

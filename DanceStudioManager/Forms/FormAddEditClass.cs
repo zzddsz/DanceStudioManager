@@ -1,39 +1,41 @@
-﻿using DanceStudioManager.Controllers;
-using DanceStudio.Service.DTOs;
+﻿using DanceStudio.Service.Services;
+using DanceStudioManager.ViewModel;
+using DanceStudio.Service.Validators;
 using System;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace DanceStudioManager.Forms
 {
     public partial class FormAddEditClass : Form
     {
-        private readonly DanceClassController _controller;
-        private DanceClassDTO _editing;
+        private readonly DanceClassService _service;
+        private DanceClassViewModel _editing;
 
-        public FormAddEditClass(DanceClassController controller)
+        public FormAddEditClass(DanceClassService service)
         {
-            _controller = controller;
+            _service = service;
             InitializeComponent();
+            ApplyTheme();
         }
 
-        public void LoadClass(DanceClassDTO danceClassDto)
+        public void LoadClass(DanceClassViewModel viewModel)
         {
-            _editing = danceClassDto;
-            txtNome.Text = danceClassDto.Name;
-            txtProfessor.Text = danceClassDto.Teacher;
-            cmbDiaSemana.Text = danceClassDto.DayOfWeek;
+            _editing = viewModel;
+            txtNome.Text = viewModel.Name;
+            txtProfessor.Text = viewModel.Teacher;
+            cmbDiaSemana.Text = viewModel.DayOfWeek;
 
             try
             {
-                timeHorario.Value = DateTime.Today.Add(danceClassDto.Time);
+                timeHorario.Value = DateTime.Today.Add(viewModel.Time);
             }
             catch
             {
                 timeHorario.Value = DateTime.Now;
             }
 
-            numVagas.Value = danceClassDto.MaxStudents;
+            numVagas.Value = viewModel.MaxStudents;
         }
 
         private async void btnSalvar_Click(object sender, EventArgs e)
@@ -50,7 +52,7 @@ namespace DanceStudioManager.Forms
 
             try
             {
-                var dto = new DanceClassDTO
+                var viewModel = new DanceClassViewModel
                 {
                     Id = _editing != null ? _editing.Id : 0,
                     Name = txtNome.Text,
@@ -60,28 +62,27 @@ namespace DanceStudioManager.Forms
                     MaxStudents = (int)numVagas.Value
                 };
 
+
                 if (_editing == null)
                 {
-                   
-                    await _controller.Add(dto);
+                    await _service.Add<DanceClassViewModel, DanceClassViewModel, DanceClassValidator>(viewModel);
                 }
                 else
                 {
-                    var resultado = await _controller.Atualizar(dto.Id, dto);
-                    if (!resultado.ok)
-                    {
-                        MessageBox.Show("Erro ao atualizar: " + resultado.msg);
-                        btnSalvar.Enabled = true;
-                        return;
-                    }
+                   
+                    await _service.Update<DanceClassViewModel, DanceClassViewModel, DanceClassValidator>(viewModel);
                 }
 
+                MessageBox.Show("Salvo com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar: " + ex.Message);
+                MessageBox.Show("Erro: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
                 btnSalvar.Enabled = true;
             }
         }
@@ -90,6 +91,22 @@ namespace DanceStudioManager.Forms
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void ApplyTheme()
+        {
+            this.BackColor = Color.LavenderBlush;
+
+            if (btnSalvar != null)
+            {
+                btnSalvar.BackColor = Color.RosyBrown;
+                btnSalvar.ForeColor = Color.White;
+            }
+            if (btnCancelar != null)
+            {
+                btnCancelar.BackColor = Color.RosyBrown;
+                btnCancelar.ForeColor = Color.White;
+            }
         }
     }
 }

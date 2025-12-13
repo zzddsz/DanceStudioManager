@@ -41,9 +41,10 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(223, 12);
+            btnAdd.Anchor = AnchorStyles.Top;
+            btnAdd.Location = new Point(163, 12);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(175, 52);
+            btnAdd.Size = new Size(235, 52);
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Add Enrollment";
             btnAdd.UseVisualStyleBackColor = true;
@@ -51,9 +52,10 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(404, 12);
+            btnDelete.Anchor = AnchorStyles.Top;
+            btnDelete.Location = new Point(424, 12);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(175, 52);
+            btnDelete.Size = new Size(242, 52);
             btnDelete.TabIndex = 1;
             btnDelete.Text = "Remove Enrollment";
             btnDelete.UseVisualStyleBackColor = true;

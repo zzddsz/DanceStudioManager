@@ -1,5 +1,5 @@
-﻿using DanceStudio.Domain.Models;
-using DanceStudio.Repository.Data;
+﻿using DanceStudio.Domain.Entities;
+using DanceStudio.Repository.Context;
 
 namespace DanceStudio.Repository.Repositories
 {

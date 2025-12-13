@@ -1,8 +1,10 @@
-﻿namespace DanceStudio.Domain.Models
+﻿using DanceStudio.Domain.Base;
+using System.Collections.Generic;
+
+namespace DanceStudio.Domain.Entities
 {
-    public class Teacher
+    public class Teacher : BaseEntity<int>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Specialty { get; set; }
         public ICollection<DanceClass> DanceClass { get; set; }
