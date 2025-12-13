@@ -11,7 +11,7 @@ namespace DanceStudioManager.Forms
     public partial class FormClass : Form
     {
         private readonly DanceClassService _service;
-        private readonly TeacherService _teacherService; // Necessário para passar ao FormAddEdit
+        private readonly TeacherService _teacherService;
 
         public FormClass(DanceClassService service, TeacherService teacherService)
         {
@@ -49,12 +49,20 @@ namespace DanceStudioManager.Forms
                     dgv.DataSource = list.ToList();
 
                     if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
-                    if (dgv.Columns["TeacherId"] != null) dgv.Columns["TeacherId"].Visible = false; // Oculta ID técnico
+                    if (dgv.Columns["TeacherId"] != null) dgv.Columns["TeacherId"].Visible = false;
 
                     if (dgv.Columns["Name"] != null) dgv.Columns["Name"].HeaderText = "Class Name";
                     if (dgv.Columns["TeacherName"] != null) dgv.Columns["TeacherName"].HeaderText = "Teacher";
                     if (dgv.Columns["DayOfWeek"] != null) dgv.Columns["DayOfWeek"].HeaderText = "Day";
-                    if (dgv.Columns["Time"] != null) dgv.Columns["Time"].HeaderText = "Time";
+
+                    if (dgv.Columns["Time"] != null)
+                    {
+                        dgv.Columns["Time"].HeaderText = "Time";
+                        // --- ALTERAÇÃO AQUI ---
+                        // Formata para Hora:Minuto (ex: 13:30) removendo os segundos e milissegundos
+                        dgv.Columns["Time"].DefaultCellStyle.Format = @"hh\:mm";
+                    }
+
                     if (dgv.Columns["MaxStudents"] != null) dgv.Columns["MaxStudents"].HeaderText = "Max Students";
                 }
             }
