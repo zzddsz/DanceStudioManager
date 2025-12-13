@@ -28,7 +28,6 @@ namespace DanceStudioManager
             InitializeComponent();
             ApplyTheme();
 
-            // Proteção de Eventos
             if (btnAdd != null) { btnAdd.Click -= BtnAdd_Click; btnAdd.Click += BtnAdd_Click; }
             if (btnDelete != null) { btnDelete.Click -= BtnDelete_Click; btnDelete.Click += BtnDelete_Click; }
 

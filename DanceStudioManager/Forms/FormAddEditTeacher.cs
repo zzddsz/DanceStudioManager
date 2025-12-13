@@ -33,7 +33,6 @@ namespace DanceStudioManager.Forms
         {
             if (string.IsNullOrWhiteSpace(txtName.Text)) return;
 
-            // 1. Usa nome único para evitar erro de variável 'b'
             if (sender is Button btnSender) btnSender.Enabled = false;
 
             var dto = new TeacherViewModel {
@@ -57,7 +56,6 @@ namespace DanceStudioManager.Forms
             }
             finally
             {
-                // 2. Usa nome único para evitar erro de variável 'b'
                 if (sender is Button btnFinally) btnFinally.Enabled = true;
             }
         }

@@ -20,7 +20,6 @@ namespace DanceStudioManager.Forms
             InitializeComponent();
             ApplyStyle();
 
-            // Proteção de Eventos
             if (btnAdd != null) { btnAdd.Click -= BtnAdd_Click; btnAdd.Click += BtnAdd_Click; }
             if (btnEdit != null) { btnEdit.Click -= BtnEdit_Click; btnEdit.Click += BtnEdit_Click; }
             if (btnDelete != null) { btnDelete.Click -= BtnDelete_Click; btnDelete.Click += BtnDelete_Click; }
@@ -39,7 +38,6 @@ namespace DanceStudioManager.Forms
         {
             try
             {
-                // Inclui "Teacher" para exibir o nome do professor no Grid
                 var includes = new System.Collections.Generic.List<string> { "Teacher" };
                 var list = await _service.Get<DanceClassViewModel>(includes);
 
@@ -58,8 +56,6 @@ namespace DanceStudioManager.Forms
                     if (dgv.Columns["Time"] != null)
                     {
                         dgv.Columns["Time"].HeaderText = "Time";
-                        // --- ALTERAÇÃO AQUI ---
-                        // Formata para Hora:Minuto (ex: 13:30) removendo os segundos e milissegundos
                         dgv.Columns["Time"].DefaultCellStyle.Format = @"hh\:mm";
                     }
 

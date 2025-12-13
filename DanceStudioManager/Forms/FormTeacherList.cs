@@ -18,7 +18,6 @@ namespace DanceStudioManager.Forms
             InitializeComponent();
             ApplyStyle();
 
-            // Proteção contra múltiplos cliques
             if (btnAdd != null) { btnAdd.Click -= btnAdd_Click; btnAdd.Click += btnAdd_Click; }
             if (btnEdit != null) { btnEdit.Click -= btnEdit_Click; btnEdit.Click += btnEdit_Click; }
             if (btnDelete != null) { btnDelete.Click -= btnDelete_Click; btnDelete.Click += btnDelete_Click; }

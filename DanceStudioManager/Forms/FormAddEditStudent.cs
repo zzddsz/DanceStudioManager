@@ -18,7 +18,6 @@ namespace DanceStudioManager.Forms
             InitializeComponent();
             ApplyTheme();
 
-            // Proteção de Eventos
             if (btnSave != null) { btnSave.Click -= BtnSave_Click; btnSave.Click += BtnSave_Click; }
             if (btnCancel != null) { btnCancel.Click -= BtnCancel_Click; btnCancel.Click += BtnCancel_Click; }
         }
@@ -45,7 +44,6 @@ namespace DanceStudioManager.Forms
                 return;
             }
 
-            // CORREÇÃO: Nome 'btnSender'
             if (sender is Button btnSender) btnSender.Enabled = false;
 
             var viewModel = new StudentViewModel
@@ -77,7 +75,6 @@ namespace DanceStudioManager.Forms
             }
             finally
             {
-                // CORREÇÃO: Nome 'btnFinally'
                 if (sender is Button btnFinally) btnFinally.Enabled = true;
             }
         }

@@ -41,7 +41,7 @@ namespace DanceStudioManager
             b.Margin = new Padding(0);
             b.FlatStyle = FlatStyle.Flat;
             b.FlatAppearance.BorderSize = 1;
-            b.FlatAppearance.BorderColor = Color.FromArgb(115, 55, 55); // Cor do fundo para "sumir" a borda ou White
+            b.FlatAppearance.BorderColor = Color.FromArgb(115, 55, 55); 
             b.BackColor = Color.FromArgb(178, 122, 122);
             b.ForeColor = Color.White;
             b.Font = new Font("Segoe UI", 11, FontStyle.Bold);
@@ -51,11 +51,6 @@ namespace DanceStudioManager
             b.FlatAppearance.MouseDownBackColor = Color.FromArgb(158, 102, 102);
             b.UseVisualStyleBackColor = false;
         }
-
-        // =======================================================
-        // ABERTURA DE FORMULÁRIOS
-        // Usamos GetRequiredService pois eles estão registrados no Program.cs
-        // =======================================================
 
         private void BtnTeachers_Click(object sender, EventArgs e)
         {
@@ -87,8 +82,6 @@ namespace DanceStudioManager
         {
             try
             {
-                // FormClass precisa do DanceClassService E TeacherService
-                // O GetRequiredService resolve tudo isso sozinho
                 var form = _provider.GetRequiredService<FormClass>();
                 form.ShowDialog();
             }

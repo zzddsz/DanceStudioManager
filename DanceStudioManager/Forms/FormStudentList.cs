@@ -18,9 +18,6 @@ namespace DanceStudioManager.Forms
             InitializeComponent();
             ApplyStyle();
 
-            // =======================================================
-            // PROTEÇÃO DE EVENTOS (Evita cliques duplos ou nulos)
-            // =======================================================
             if (btnAdd != null) { btnAdd.Click -= btnAdd_Click; btnAdd.Click += btnAdd_Click; }
             if (btnEdit != null) { btnEdit.Click -= btnEdit_Click; btnEdit.Click += btnEdit_Click; }
             if (btnDelete != null) { btnDelete.Click -= btnDelete_Click; btnDelete.Click += btnDelete_Click; }
@@ -46,10 +43,7 @@ namespace DanceStudioManager.Forms
                     dgv.DataSource = null;
                     dgv.DataSource = list.ToList();
 
-                    // Oculta apenas o ID
                     if (dgv.Columns["Id"] != null) dgv.Columns["Id"].Visible = false;
-
-                    // Ajuste de colunas
                     if (dgv.Columns["Name"] != null) dgv.Columns["Name"].HeaderText = "Name";
                     if (dgv.Columns["Age"] != null) dgv.Columns["Age"].HeaderText = "Age";
                     if (dgv.Columns["Level"] != null) dgv.Columns["Level"].HeaderText = "Level";

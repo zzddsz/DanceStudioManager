@@ -28,8 +28,6 @@ namespace DanceStudio.Repository.Repositories
 
         public async Task UpdateAsync(TEntity entity)
         {
-            // --- FIX CRÍTICO: DETACH ---
-            // Verifica se o objeto já está na memória do EF e o solta para evitar conflito
             var local = _dataset.Local.FirstOrDefault(entry => entry.Id.Equals(entity.Id));
             if (local != null)
             {
@@ -42,7 +40,6 @@ namespace DanceStudio.Repository.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            // Busca e remove corretamente
             var entity = await _dataset.FindAsync(id);
             if (entity != null)
             {
@@ -61,7 +58,6 @@ namespace DanceStudio.Repository.Repositories
                     query = query.Include(include);
             }
 
-            // AsNoTracking evita conflitos futuros ao abrir telas de edição
             return await query.AsNoTracking().ToListAsync();
         }
 

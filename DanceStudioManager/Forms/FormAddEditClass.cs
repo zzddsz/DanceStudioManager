@@ -68,7 +68,6 @@ namespace DanceStudioManager.Forms
 
         private async void btnSalvar_Click(object sender, EventArgs e)
         {
-            // Validações básicas de tela
             if (string.IsNullOrWhiteSpace(txtNome.Text)) { MessageBox.Show("Nome obrigatório."); return; }
             if (cmbTeacher.SelectedValue == null) { MessageBox.Show("Selecione um Professor."); return; }
             if (string.IsNullOrWhiteSpace(cmbDiaSemana.Text)) { MessageBox.Show("Dia obrigatório."); return; }
@@ -87,8 +86,6 @@ namespace DanceStudioManager.Forms
                     MaxStudents = (int)numVagas.Value
                 };
 
-                // O Service vai usar o AutoMapper (Program.cs) para converter ViewModel -> Entity
-                // E depois vai usar o DanceClassValidator (Service) para validar a Entity
                 if (_editing == null)
                     await _service.Add<DanceClassViewModel, DanceClassViewModel, DanceClassValidator>(viewModel);
                 else
@@ -100,7 +97,6 @@ namespace DanceStudioManager.Forms
             }
             catch (Exception ex)
             {
-                // Se der erro de validação ou banco, mostra aqui
                 MessageBox.Show("Erro ao salvar: " + ex.Message);
             }
             finally

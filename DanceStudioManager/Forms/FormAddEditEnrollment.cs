@@ -28,7 +28,6 @@ namespace DanceStudioManager.Views
             _classService = classService;
             _editId = id;
 
-            // Proteção contra cliques duplos e eventos
             if (btnSave != null)
             {
                 btnSave.BackColor = Color.FromArgb(255, 170, 200);
@@ -55,7 +54,6 @@ namespace DanceStudioManager.Views
         {
             try
             {
-                // Carregamento sequencial
                 var listaAlunos = await _studentService.Get<StudentViewModel>();
                 var listaAulas = await _classService.Get<DanceClassViewModel>();
 
@@ -87,7 +85,6 @@ namespace DanceStudioManager.Views
                 return;
             }
 
-            // CORREÇÃO: Nome 'btnSender'
             if (sender is Button btnSender) btnSender.Enabled = false;
 
             var dto = new EnrollmentViewModel
@@ -115,7 +112,6 @@ namespace DanceStudioManager.Views
             }
             finally
             {
-                // CORREÇÃO: Nome 'btnFinally'
                 if (sender is Button btnFinally) btnFinally.Enabled = true;
             }
         }

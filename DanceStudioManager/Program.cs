@@ -27,39 +27,27 @@ namespace DanceStudioManager
             var services = new ServiceCollection();
             services.AddLogging();
 
-            // 1. BANCO DE DADOS
             var connectionString = "server=localhost;port=3306;database=studio;user=root;password=";
             services.AddDbContext<AppDbContext>(options =>
                 options.UseMySQL(connectionString), ServiceLifetime.Transient);
 
-            // 2. AUTOMAPPER (A CORREÇÃO ESTÁ AQUI)
             services.AddAutoMapper(cfg =>
             {
-                // Student e Teacher
                 cfg.CreateMap<Student, StudentViewModel>().ReverseMap();
                 cfg.CreateMap<Teacher, TeacherViewModel>().ReverseMap();
-
-                // --- DANCE CLASS (AULA) ---
-                // Ida (Banco -> Tela): Transforma Objeto Teacher em String Nome
                 cfg.CreateMap<DanceClass, DanceClassViewModel>()
                    .ForMember(dest => dest.TeacherName, opt => opt.MapFrom(src => src.Teacher.Name));
-
-                // Volta (Tela -> Banco): Transforma o ID selecionado no FK do Banco
                 cfg.CreateMap<DanceClassViewModel, DanceClass>()
                    .ForMember(dest => dest.TeacherId, opt => opt.MapFrom(src => src.TeacherId))
-                   .ForMember(dest => dest.Teacher, opt => opt.Ignore()); // Ignora o objeto, usa só o ID
-
-                // --- ENROLLMENT (MATRÍCULA) ---
+                   .ForMember(dest => dest.Teacher, opt => opt.Ignore());
                 cfg.CreateMap<Enrollment, EnrollmentViewModel>()
                     .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student.Name))
                     .ForMember(dest => dest.DanceClassName, opt => opt.MapFrom(src => src.DanceClass.Name));
-
                 cfg.CreateMap<EnrollmentViewModel, Enrollment>()
                     .ForMember(dest => dest.Student, opt => opt.Ignore())
                     .ForMember(dest => dest.DanceClass, opt => opt.Ignore());
             });
 
-            // 3. INJEÇÃO DE DEPENDÊNCIA
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<DanceClassRepository>();
             services.AddTransient<StudentRepository>();
@@ -90,7 +78,6 @@ namespace DanceStudioManager
 
             var provider = services.BuildServiceProvider();
 
-            // 4. INICIALIZAÇÃO
             try
             {
                 using (var scope = provider.CreateScope())
