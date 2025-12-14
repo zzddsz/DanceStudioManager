@@ -80,7 +80,7 @@ namespace DanceStudioManager.Forms
                 {
                     Id = _editing != null ? _editing.Id : 0,
                     Name = txtNome.Text.Trim(),
-                    TeacherId = (int)cmbTeacher.SelectedValue, // Pega o ID do Combo
+                    TeacherId = (int)cmbTeacher.SelectedValue,
                     DayOfWeek = cmbDiaSemana.Text,
                     Time = timeHorario.Value.TimeOfDay,
                     MaxStudents = (int)numVagas.Value
