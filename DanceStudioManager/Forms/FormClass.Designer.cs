@@ -19,116 +19,133 @@
 
         private void InitializeComponent()
         {
-            this.dgv = new System.Windows.Forms.DataGridView();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.lblStudio = new System.Windows.Forms.Label();
-            this.topPanel = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
-            this.topPanel.SuspendLayout();
-            this.SuspendLayout();
-
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            dgv = new DataGridView();
+            btnAdd = new Button();
+            btnEdit = new Button();
+            btnDelete = new Button();
+            btnRefresh = new Button();
+            lblStudio = new Label();
+            topPanel = new Panel();
+            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
+            topPanel.SuspendLayout();
+            SuspendLayout();
+            // 
             // dgv
-            this.dgv.AllowUserToAddRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgv.BackgroundColor = System.Drawing.Color.White;
-            this.dgv.ColumnHeadersHeight = 29;
-            this.dgv.Location = new System.Drawing.Point(20, 145);
-            this.dgv.Name = "dgv";
-            this.dgv.ReadOnly = true;
-            this.dgv.RowHeadersWidth = 51;
-            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(804, 345);
-            this.dgv.TabIndex = 1;
-
+            // 
+            dgv.AllowUserToAddRows = false;
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgv.BackgroundColor = Color.White;
+            dgv.ColumnHeadersHeight = 29;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.RosyBrown;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dgv.DefaultCellStyle = dataGridViewCellStyle1;
+            dgv.Location = new Point(20, 145);
+            dgv.Name = "dgv";
+            dgv.ReadOnly = true;
+            dgv.RowHeadersWidth = 51;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.Size = new Size(804, 345);
+            dgv.TabIndex = 1;
+            // 
             // btnAdd
-            this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnAdd.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.btnAdd.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnAdd.Location = new System.Drawing.Point(46, 83);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(150, 41);
-            this.btnAdd.TabIndex = 2;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = false;
-
+            // 
+            btnAdd.Anchor = AnchorStyles.Top;
+            btnAdd.BackColor = Color.RosyBrown;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Font = new Font("Tahoma", 9F, FontStyle.Bold);
+            btnAdd.ForeColor = SystemColors.ButtonHighlight;
+            btnAdd.Location = new Point(46, 83);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(150, 41);
+            btnAdd.TabIndex = 2;
+            btnAdd.Text = "Add";
+            btnAdd.UseVisualStyleBackColor = false;
+            // 
             // btnEdit
-            this.btnEdit.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnEdit.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.btnEdit.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnEdit.Location = new System.Drawing.Point(237, 83);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(169, 41);
-            this.btnEdit.TabIndex = 3;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = false;
-
+            // 
+            btnEdit.Anchor = AnchorStyles.Top;
+            btnEdit.BackColor = Color.RosyBrown;
+            btnEdit.FlatStyle = FlatStyle.Flat;
+            btnEdit.Font = new Font("Tahoma", 9F, FontStyle.Bold);
+            btnEdit.ForeColor = SystemColors.ButtonHighlight;
+            btnEdit.Location = new Point(237, 83);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(169, 41);
+            btnEdit.TabIndex = 3;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = false;
+            // 
             // btnDelete
-            this.btnDelete.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnDelete.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDelete.Location = new System.Drawing.Point(436, 83);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(169, 41);
-            this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
-
+            // 
+            btnDelete.Anchor = AnchorStyles.Top;
+            btnDelete.BackColor = Color.RosyBrown;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Tahoma", 9F, FontStyle.Bold);
+            btnDelete.ForeColor = SystemColors.ButtonHighlight;
+            btnDelete.Location = new Point(436, 83);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(169, 41);
+            btnDelete.TabIndex = 4;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = false;
+            // 
             // btnRefresh
-            this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnRefresh.BackColor = System.Drawing.Color.RosyBrown;
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.btnRefresh.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnRefresh.Location = new System.Drawing.Point(643, 83);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(169, 41);
-            this.btnRefresh.TabIndex = 5;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = false;
-
-            // topPanel
-            this.topPanel.BackColor = System.Drawing.Color.RosyBrown;
-            this.topPanel.Controls.Add(this.lblStudio);
-            this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(836, 70);
-            this.topPanel.TabIndex = 0;
-
+            // 
+            btnRefresh.Anchor = AnchorStyles.Top;
+            btnRefresh.BackColor = Color.RosyBrown;
+            btnRefresh.FlatStyle = FlatStyle.Flat;
+            btnRefresh.Font = new Font("Tahoma", 9F, FontStyle.Bold);
+            btnRefresh.ForeColor = SystemColors.ButtonHighlight;
+            btnRefresh.Location = new Point(643, 83);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(169, 41);
+            btnRefresh.TabIndex = 5;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = false;
+            // 
             // lblStudio
-            this.lblStudio.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
-            this.lblStudio.ForeColor = System.Drawing.Color.White;
-            this.lblStudio.Location = new System.Drawing.Point(3, 9);
-            this.lblStudio.Name = "lblStudio";
-            this.lblStudio.Size = new System.Drawing.Size(833, 61);
-            this.lblStudio.TabIndex = 0;
-            this.lblStudio.Text = "Studio Dance • Class control";
-            this.lblStudio.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-
+            // 
+            lblStudio.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblStudio.ForeColor = Color.White;
+            lblStudio.Location = new Point(3, 9);
+            lblStudio.Name = "lblStudio";
+            lblStudio.Size = new Size(833, 61);
+            lblStudio.TabIndex = 0;
+            lblStudio.Text = "Studio Dance • Class control";
+            lblStudio.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // topPanel
+            // 
+            topPanel.BackColor = Color.RosyBrown;
+            topPanel.Controls.Add(lblStudio);
+            topPanel.Dock = DockStyle.Top;
+            topPanel.Location = new Point(0, 0);
+            topPanel.Name = "topPanel";
+            topPanel.Size = new Size(836, 70);
+            topPanel.TabIndex = 0;
+            // 
             // FormClass
-            this.BackColor = System.Drawing.Color.MistyRose;
-            this.ClientSize = new System.Drawing.Size(836, 526);
-            this.Controls.Add(this.topPanel);
-            this.Controls.Add(this.dgv);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.btnEdit);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnRefresh);
-            this.Name = "FormClass";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Dance Studio Manager";
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
-            this.topPanel.ResumeLayout(false);
-            this.ResumeLayout(false);
+            // 
+            BackColor = Color.MistyRose;
+            ClientSize = new Size(836, 526);
+            Controls.Add(topPanel);
+            Controls.Add(dgv);
+            Controls.Add(btnAdd);
+            Controls.Add(btnEdit);
+            Controls.Add(btnDelete);
+            Controls.Add(btnRefresh);
+            Name = "FormClass";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Dance Studio Manager";
+            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
+            topPanel.ResumeLayout(false);
+            ResumeLayout(false);
         }
     }
 }
